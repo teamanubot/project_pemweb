@@ -1,3 +1,4 @@
 app/db/data/*
-analisa/*
+analisis/*
 Readme.md
+.gitignore
