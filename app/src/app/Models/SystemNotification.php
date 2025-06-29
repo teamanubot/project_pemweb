@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SystemNotification extends Model
 {
     use HasFactory;
-    protected $table = 'system_notification';
+    protected $table = 'system_notifications';
     protected $guarded = ['id'];
 
     /**
