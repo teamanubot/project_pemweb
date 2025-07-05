@@ -29,7 +29,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'email',
         'password',
         'email_verified_at',
-        'department_id', // ditambahkan agar bisa mass-assigned jika kolom ini ada
+        'phone_number',
+        'address',
+        'nik',
+        'job_title',
+        'department_id',
+        'employment_status',
+        'onboarding_date',
+        'expertise_area',
+        'teaching_status',
+        'role',
     ];
 
     /**
@@ -47,11 +56,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
      *
      * @return array<string, string>
      */
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
+            'onboarding_date' => 'date',
             'password' => 'hashed',
+            'employment_status' => 'string',
+            'teaching_status' => 'string',
+            'role' => 'string',
         ];
     }
 
@@ -62,6 +76,12 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
+    }
+
 
     /**
      * Contoh relasi lain ke enrollments, submissions, dll bisa ditambahkan jika diperlukan
@@ -80,6 +100,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+
+        return match ($panel->getId()) {
+            'instructor' => $this->role === 'teacher',
+            'admin' => $this->role === 'admin_company',
+            default => false,
+        };
     }
 }
