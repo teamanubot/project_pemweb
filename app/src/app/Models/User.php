@@ -9,12 +9,14 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory,HasRoles, Notifiable;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +28,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'name',
         'email',
         'password',
+        'email_verified_at',
+        'department_id', // ditambahkan agar bisa mass-assigned jika kolom ini ada
     ];
 
     /**
@@ -39,7 +43,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
@@ -50,6 +54,18 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Relasi ke tabel departments
+     */
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    /**
+     * Contoh relasi lain ke enrollments, submissions, dll bisa ditambahkan jika diperlukan
+     */
 
     public function getFilamentAvatarUrl(): ?string
     {
