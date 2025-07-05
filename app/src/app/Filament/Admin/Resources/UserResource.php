@@ -16,7 +16,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-shield-check';
 
     protected static ?string $navigationGroup = 'Administration';
 
@@ -73,11 +73,11 @@ class UserResource extends Resource
                             ->password()
                             ->confirmed()
                             ->columnSpan(1)
-                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                            ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $context): bool => $context === 'create'),
+                            ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                            ->dehydrated(fn($state) => filled($state))
+                            ->required(fn(string $context): bool => $context === 'create'),
                         Forms\Components\TextInput::make('password_confirmation')
-                            ->required(fn (string $context): bool => $context === 'create')
+                            ->required(fn(string $context): bool => $context === 'create')
                             ->columnSpan(1)
                             ->password(),
                     ]),
@@ -91,6 +91,43 @@ class UserResource extends Resource
                             ->label('Roles'),
                     ])
                     ->columns(1),
+
+                Forms\Components\TextInput::make('phone_number')->required(),
+                Forms\Components\Textarea::make('address')->required(),
+                Forms\Components\TextInput::make('nik')->required(),
+                Forms\Components\TextInput::make('job_title')->required(),
+                Forms\Components\Select::make('department_id')
+                    ->relationship('department', 'name')
+                    ->required(),
+                Forms\Components\Select::make('employment_status')
+                    ->options([
+                        'active' => 'Active',
+                        'inactive' => 'Inactive',
+                    ])
+                    ->required(),
+                Forms\Components\DatePicker::make('onboarding_date')->required(),
+                Forms\Components\TextInput::make('expertise_area')->label('Expertise Area')->nullable(),
+                Forms\Components\Select::make('teaching_status')
+                    ->options([
+                        'active' => 'Active',
+                        'inactive' => 'Inactive',
+                    ])
+                    ->nullable(),
+                Forms\Components\Select::make('role')
+                    ->options([
+                        'admin_company' => 'Admin Company',
+                        'admin_hrm' => 'Admin HRM',
+                        'admin_lms' => 'Admin LMS',
+                        'admin_akademik' => 'Admin Akademik',
+                        'admin_hr' => 'Admin HR',
+                        'teacher' => 'Teacher',
+                        'student' => 'Student',
+                    ])
+                    ->required(),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->unique(ignoreRecord: true),
 
             ]);
     }
@@ -120,6 +157,11 @@ class UserResource extends Resource
                     ->date()
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('job_title'),
+                Tables\Columns\TextColumn::make('department.name')->label('Department'),
+                Tables\Columns\TextColumn::make('employment_status')->badge(),
+                Tables\Columns\TextColumn::make('role')->badge(),
+
 
             ])
             ->filters([
