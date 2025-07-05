@@ -21,6 +21,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -53,12 +54,41 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label('Administration'),
+                    ->label('Dashboard')
+                    ->icon('heroicon-o-home'),
+
+                NavigationGroup::make()
+                    ->label('Academics')
+                    ->icon('heroicon-o-academic-cap'),
+
+                NavigationGroup::make()
+                    ->label('Content & Modules')
+                    ->icon('heroicon-o-book-open'),
+
+                NavigationGroup::make()
+                    ->label('Assessments')
+                    ->icon('heroicon-o-pencil-square'),
+
+                NavigationGroup::make()
+                    ->label('Student Affairs')
+                    ->icon('heroicon-o-user'),
+
+                NavigationGroup::make()
+                    ->label('Finance & Payroll')
+                    ->icon('heroicon-o-currency-dollar'),
+
+                NavigationGroup::make()
+                    ->label('Organization Settings')
+                    ->icon('heroicon-o-building-office'),
+
+                NavigationGroup::make()
+                    ->label('Administration')
+                    ->icon('heroicon-o-shield-check'),
             ])
             ->userMenuItems([
                 'profile' => MenuItem::make()
-                    ->label(fn () => auth()->user()->name)
-                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->label(fn() => \Illuminate\Support\Facades\Auth::user()?->name)
+                    ->url(fn(): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
                 // 'profile' => \Filament\Navigation\MenuItem::make()
                 //     ->label(fn () => auth()->user()->name)
@@ -122,8 +152,10 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class,
             ])
+            ->authGuard('admin')
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\EnsureUserIsAdmin::class,
             ]);
     }
 }
