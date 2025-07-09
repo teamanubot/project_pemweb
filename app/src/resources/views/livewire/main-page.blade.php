@@ -1,13 +1,11 @@
-<main>
 <main class="main">
-
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
 
         <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
             <div class="carousel-item active">
-                <img src="{{ asset('assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt="">
+                <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt="">
                 <div class="carousel-container">
                     <h2>Tujuan UEU Bootcamp</h2>
                     <p style="text-align: center;"><b>Menyediakan Program Bootcamp Berkualitas Tinggi yang Relevan
@@ -23,7 +21,7 @@
             </div><!-- End Carousel Item -->
 
             <div class="carousel-item">
-                <img src="assets/img/hero-carousel/Hero-Pics-2.jpg" alt="">
+                <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-2.jpg') }}" alt="">
                 <div class="carousel-container">
                     <h2>Tujuan UEU Bootcamp</h2>
                     <p style="text-align: center;"><b>Memperluas Akses Pendidikan Digital untuk Berbagai
@@ -39,7 +37,7 @@
             </div><!-- End Carousel Item -->
 
             <div class="carousel-item">
-                <img src="assets/img/hero-carousel/Hero-Pics-3.jpg" alt="">
+                <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-3.jpg') }}" alt="">
                 <div class="carousel-container">
                     <h2>Tujuan UEU Bootcamp</h2>
                     <p style="text-align: center;"><b>Mengelola Sumber Daya Manusia Secara Efisien dan Transparan,
@@ -56,7 +54,7 @@
             </div><!-- End Carousel Item -->
 
             <div class="carousel-item">
-                <img src="assets/img/hero-carousel/Hero-Pics-4.jpg" alt="">
+                <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-4.jpg') }}" alt="">
                 <div class="carousel-container">
                     <h2>Tujuan UEU Bootcamp</h2>
                     <p style="text-align: center;"><b>Mencetak Talenta Digital yang Siap Kerja dan Kompetitif</b>
@@ -224,10 +222,6 @@
                     </p>
                 </div>
             </div>
-
-
-
-
     </section><!-- /About Section -->
 
 
@@ -496,7 +490,6 @@
                     <div class="col-md-6">
                         <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
                     </div>
-
                     <div class="col-md-6 ">
                         <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
                     </div>
@@ -524,7 +517,4 @@
         </div>
 
     </section><!-- /Contact Section -->
-
-</main>
-
 </main>
