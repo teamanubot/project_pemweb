@@ -102,7 +102,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return match ($panel->getId()) {
             'instructor' => $this->role === 'teacher',
-            'student' => $this->role === 'student',
+            'sso' => $this->role === 'student',
             'admin' => in_array($this->role, [
                 'admin_company',
                 'admin_hrm',

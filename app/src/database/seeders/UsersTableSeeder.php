@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Admin Management',
                 'teaching_status'   => 'inactive',
-                'role' => 'adminsuper',
+                'role' => 'super_admin',
                 'remember_token' => Str::random(10),
             ]
         );
