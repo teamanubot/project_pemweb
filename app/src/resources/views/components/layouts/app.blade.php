@@ -30,7 +30,7 @@
 	<!-- Main CSS File -->
 	<link href="{{ asset('front/assets/css/main.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('front/assets/css/global.css') }}">
-
+	@livewireStyles
 </head>
 
 
@@ -48,8 +48,8 @@
 				<!-- virya nambahin ini -->
 				<div class="login-mobile" style="margin-left: 20px;">
 					<ul class="login-mobile-btn">
-						<a href="login.html" class="login-btn-mobile" style="padding: 10px 30px;">Masuk</a>
-						<a href="login.html" class="sign-btn-mobile" style="padding: 10px 30px;">Daftar</a>
+						<a href="{{ url('/admin') }}" class="login-btn-mobile" style="padding: 10px 30px;">Masuk</a>
+						<a href="{{ url('/admin') }}" class="sign-btn-mobile" style="padding: 10px 30px;">Daftar</a>
 					</ul>
 				</div>
 				<!-- smpe sini -->
@@ -57,11 +57,11 @@
 			</div>
 			<nav id="navmenu" class="navmenu">
 				<ul class="desktop">
-					<li><a href="#hero" class="active">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
-					<li><a href="blog.html">Blog</a></li>
-					<a href="pendaftaran.html" class="login-btn" style="padding: 10px 30px;">Masuk</a>
+					<li><a href="{{ url('/') }}" class="active">Home</a></li>
+					<li><a href="{{ url('/#about') }}">About</a></li>
+					<li><a href="{{ url('/#contact') }}">Contact</a></li>
+					<li><a href="{{ url('/blog') }}">Blog</a></li>
+					<a href="{{ url('/admin') }}" class="login-btn" style="padding: 10px 30px;">Masuk</a>
 				</ul>
 				<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 			</nav>
@@ -94,8 +94,8 @@
 					</div>
 				</div>
 
-				<div class="col-lg-2  footer-links" style="display: grid; justify-content: end; ">
-					<h4 class="usefulkekanan">Useful Links</h4>
+				<div class="col-lg-4 ms-auto kanan footer-links">
+					<h4>Useful Links</h4>
 					<ul class="list-unstyled likekanan">
 						<li><a href="#">Home</a></li>
 						<li><a href="#">About us</a></li>
@@ -163,7 +163,7 @@
 
 	<!-- Main JS File -->
 	<script src="{{ asset('front/assets/js/main.js') }}"></script>
-
+	@livewireScripts
 
 </body>
 

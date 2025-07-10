@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\BlogPage;
 use App\Livewire\MainPage;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
@@ -22,3 +23,4 @@ Livewire::setScriptRoute(function ($handle) {
 // });
 
 Route::get('/',MainPage::class)->name('home');
+Route::get('/blog', BlogPage::class)->name('blog');
