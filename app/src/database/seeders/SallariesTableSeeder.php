@@ -16,7 +16,7 @@ class SallariesTableSeeder extends Seeder
             'base_salary' => 5000000,
             'overtime_pay' => 500000,
             'alpha_deduction' => 0,
-            'excess_leave_deduction' => 0,
+            'excess_leave_deduction' => 1,
             'total_gross_salary' => 5500000,
             'total_net_salary' => 5500000,
             'generated_at' => now(),

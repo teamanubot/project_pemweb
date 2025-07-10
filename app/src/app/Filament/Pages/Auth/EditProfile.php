@@ -55,7 +55,7 @@ class EditProfile extends BaseEditProfile
             return;
         }
 
-        Auth::guard()->logoutOtherDevices($password);
+        Auth::logoutOtherDevices($password);
 
         request()->session()->put([
             'password_hash_' . Auth::getDefaultDriver() => Auth::user()->getAuthPassword(),

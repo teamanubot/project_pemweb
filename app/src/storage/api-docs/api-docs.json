@@ -1,0 +1,3427 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "UEU bootcamp API Documentation",
+        "description": "Dokumentasi API untuk semua endpoint di sistem.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/everything/departments": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "List all departments",
+                "operationId": "d95fcb32e730b3d77e937c5b9bf5e1d1",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Create new department",
+                "operationId": "0b50cd61060ff7712460802640d54468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Akademik",
+                                            "HR & Operasional"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/departments/{id}": {
+            "get": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Get a department by ID",
+                "operationId": "bab37126b6fc67b67257ff2d422c192c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Update a department",
+                "operationId": "4be7f60e3cbe4693e5884ce8383a68e4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Akademik",
+                                            "HR & Operasional"
+                                        ]
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Departments"
+                ],
+                "summary": "Delete a department",
+                "operationId": "eac01cc98f0557405aa4c8bbe514d20d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "List all users",
+                "operationId": "0a1b9d621440ac551efebd6c482c2eba",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create new user",
+                "operationId": "eda65a2598201f99d3cff7d03b999a9c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "phone_number",
+                                    "address",
+                                    "nik",
+                                    "job_title",
+                                    "department_id",
+                                    "employment_status",
+                                    "onboarding_date",
+                                    "role"
+                                ],
+                                "properties": {
+                                    "avatar_url": {
+                                        "type": "string",
+                                        "format": "uri"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "phone_number": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "nik": {
+                                        "type": "string"
+                                    },
+                                    "job_title": {
+                                        "type": "string"
+                                    },
+                                    "department_id": {
+                                        "type": "integer"
+                                    },
+                                    "employment_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ]
+                                    },
+                                    "onboarding_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "expertise_area": {
+                                        "type": "string"
+                                    },
+                                    "teaching_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ]
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "admin_company",
+                                            "admin_hrm",
+                                            "admin_lms",
+                                            "admin_akademik",
+                                            "admin_hr",
+                                            "teacher",
+                                            "student"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user by ID",
+                "operationId": "406c79bb916d2c4b71ae5b6601719d01",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user",
+                "operationId": "c35ab41704dad46ef411fd8d511662a5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "phone_number": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "nik": {
+                                        "type": "string"
+                                    },
+                                    "job_title": {
+                                        "type": "string"
+                                    },
+                                    "department_id": {
+                                        "type": "integer"
+                                    },
+                                    "employment_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ]
+                                    },
+                                    "onboarding_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "expertise_area": {
+                                        "type": "string"
+                                    },
+                                    "teaching_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ]
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "enum": [
+                                            "admin_company",
+                                            "admin_hrm",
+                                            "admin_lms",
+                                            "admin_akademik",
+                                            "admin_hr",
+                                            "teacher",
+                                            "student"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "operationId": "86713f7e0cd5cff376bb4ed76e3dfdfc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/courses": {
+            "get": {
+                "tags": [
+                    "Courses"
+                ],
+                "summary": "List all courses",
+                "operationId": "0b752fef4a762c853ce2282fe77a68e1",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Courses"
+                ],
+                "summary": "Create new course",
+                "operationId": "5ea061a8d64755b9a0f1210d84726c33",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/courses/{id}": {
+            "get": {
+                "tags": [
+                    "Courses"
+                ],
+                "summary": "Get course by ID",
+                "operationId": "abd69919b0b0920435086ea67339957a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Courses"
+                ],
+                "summary": "Update a course",
+                "operationId": "998f6127bc55cdf652a14a9cac5dc3a3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Courses"
+                ],
+                "summary": "Delete a course",
+                "operationId": "acfc3de2adf73f4347dacb63f030417b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/branch-offices": {
+            "get": {
+                "tags": [
+                    "Branch Offices"
+                ],
+                "summary": "List all branch offices",
+                "operationId": "a83e0bef858494d7dfa2eda9480e3630",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Branch Offices"
+                ],
+                "summary": "Create new branch office",
+                "operationId": "2cfe0a5d658ff61615b10a3011f23170",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "address",
+                                    "capacity",
+                                    "contact_person_name",
+                                    "contact_person_phone"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "capacity": {
+                                        "type": "integer"
+                                    },
+                                    "contact_person_name": {
+                                        "type": "string"
+                                    },
+                                    "contact_person_phone": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/branch-offices/{id}": {
+            "get": {
+                "tags": [
+                    "Branch Offices"
+                ],
+                "summary": "Get a branch office by ID",
+                "operationId": "a48e13da14c22668448cc048b8505b5c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Branch Offices"
+                ],
+                "summary": "Update a branch office",
+                "operationId": "44271fcf76fd1e4e63bd0a4c58727ec3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "capacity": {
+                                        "type": "integer"
+                                    },
+                                    "contact_person_name": {
+                                        "type": "string"
+                                    },
+                                    "contact_person_phone": {
+                                        "type": "string"
+                                    },
+                                    "is_active": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Branch Offices"
+                ],
+                "summary": "Delete a branch office",
+                "operationId": "35314beef41deb0a23e62f2313d5a2a6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/syllabi": {
+            "get": {
+                "tags": [
+                    "Syllabi"
+                ],
+                "summary": "List all syllabi",
+                "operationId": "84ae7f9969a1d30662f48db531143393",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Syllabi"
+                ],
+                "summary": "Create new syllabus",
+                "operationId": "45b8d6a1ea27f1813505033a1b7c5b1d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "course_id",
+                                    "title",
+                                    "description",
+                                    "file_path"
+                                ],
+                                "properties": {
+                                    "course_id": {
+                                        "type": "integer"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/syllabi/{id}": {
+            "get": {
+                "tags": [
+                    "Syllabi"
+                ],
+                "summary": "Get a syllabus by ID",
+                "operationId": "fcc6c48c7c7a0cb1ed993323ba47ee60",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Syllabi"
+                ],
+                "summary": "Update a syllabus",
+                "operationId": "9343893a4d07a66890e09f0d30c79494",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    },
+                                    "is_verified": {
+                                        "type": "boolean"
+                                    },
+                                    "verified_by_user_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Syllabi"
+                ],
+                "summary": "Delete a syllabus",
+                "operationId": "1b9d00268b0a49a450b1f74b0650ae1a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/course-enrollments": {
+            "get": {
+                "tags": [
+                    "Course Enrollments"
+                ],
+                "summary": "List all course enrollments",
+                "operationId": "d7757961a4e517f585970246a7bf5da2",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Course Enrollments"
+                ],
+                "summary": "Create new course enrollment",
+                "operationId": "550e84829afef0a8770aabde1f7ab41c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "course_id",
+                                    "enrollment_date",
+                                    "payment_status"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "course_id": {
+                                        "type": "integer"
+                                    },
+                                    "enrollment_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "payment_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "paid",
+                                            "failed"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/course-enrollments/{id}": {
+            "get": {
+                "tags": [
+                    "Course Enrollments"
+                ],
+                "summary": "Get a course enrollment by ID",
+                "operationId": "71f4d16310d6e7b51bc1a3a915dd5b2d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Course Enrollments"
+                ],
+                "summary": "Update a course enrollment",
+                "operationId": "97edc933293945ae9d1c4efd0c51f688",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "payment_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "paid",
+                                            "failed"
+                                        ]
+                                    },
+                                    "access_granted_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "is_completed": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Course Enrollments"
+                ],
+                "summary": "Delete a course enrollment",
+                "operationId": "85b505b69dd04c52fffa719d9ed6a90d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/sesi": {
+            "get": {
+                "tags": [
+                    "Sesi"
+                ],
+                "summary": "List all sesi",
+                "operationId": "777f0d25462c7841507264be901d13d3",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sesi"
+                ],
+                "summary": "Create new sesi",
+                "operationId": "52a00170cc79c644ee8dbd20a310947a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "course_id",
+                                    "teacher_id",
+                                    "session_number",
+                                    "session_type",
+                                    "delivery_method",
+                                    "session_date",
+                                    "start_time",
+                                    "end_time",
+                                    "syllabus_id",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "course_id": {
+                                        "type": "integer"
+                                    },
+                                    "teacher_id": {
+                                        "type": "integer"
+                                    },
+                                    "session_number": {
+                                        "type": "integer"
+                                    },
+                                    "session_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "theory",
+                                            "assignment"
+                                        ]
+                                    },
+                                    "delivery_method": {
+                                        "type": "string",
+                                        "enum": [
+                                            "online",
+                                            "offline"
+                                        ]
+                                    },
+                                    "session_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "start_time": {
+                                        "type": "string",
+                                        "format": "time"
+                                    },
+                                    "end_time": {
+                                        "type": "string",
+                                        "format": "time"
+                                    },
+                                    "online_link": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "branch_office_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "syllabus_id": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "scheduled",
+                                            "completed",
+                                            "canceled"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/sesi/{id}": {
+            "get": {
+                "tags": [
+                    "Sesi"
+                ],
+                "summary": "Get a sesi by ID",
+                "operationId": "24bd0b727b9bd62a5756a3dc854ae89e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Sesi"
+                ],
+                "summary": "Update a sesi",
+                "operationId": "b44242f7af2aaa9e56ce8c8aa303c615",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "session_number": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "scheduled",
+                                            "completed",
+                                            "canceled"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sesi"
+                ],
+                "summary": "Delete a sesi",
+                "operationId": "b0d551dadd60fb22f895ec9dd7335f1c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/modules": {
+            "get": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "List all modules",
+                "operationId": "336ec84636ec232e5a8c914450a2965c",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Create a module",
+                "operationId": "062442c708f5f8b1366cc04fe2703673",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "sesi_id",
+                                    "title",
+                                    "file_path",
+                                    "file_type",
+                                    "description",
+                                    "uploaded_by_user_id"
+                                ],
+                                "properties": {
+                                    "sesi_id": {
+                                        "type": "integer"
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    },
+                                    "file_type": {
+                                        "type": "string"
+                                    },
+                                    "link_url": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "uploaded_by_user_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/modules/{id}": {
+            "get": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Get a module",
+                "operationId": "8ae61994f9d209b91daafc1a75dc7ffb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Update a module",
+                "operationId": "4be465c7134c75bcc448fe7b81b16da4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    },
+                                    "file_type": {
+                                        "type": "string"
+                                    },
+                                    "link_url": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "is_verified": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Modules"
+                ],
+                "summary": "Delete a module",
+                "operationId": "0a8cd22eca7e0367ecac36b7c9de481c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/quizzes": {
+            "get": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "List all quizzes",
+                "operationId": "1182a27e29c391cde0f26c8ccdf0fe0e",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Create a quiz",
+                "operationId": "17f3aebc96027a4978641d377c8111db",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "type",
+                                    "due_date",
+                                    "max_score",
+                                    "created_by_user_id"
+                                ],
+                                "properties": {
+                                    "sesi_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "course_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "quiz",
+                                            "assignment"
+                                        ]
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "max_score": {
+                                        "type": "integer"
+                                    },
+                                    "created_by_user_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/quizzes/{id}": {
+            "get": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Get a specific quiz",
+                "operationId": "d577d74506277d7ab206436fe23ab7be",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Update a quiz",
+                "operationId": "2cad74e35cf47809f56ee07eea933b97",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "quiz",
+                                            "assignment"
+                                        ]
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "max_score": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Quizzes"
+                ],
+                "summary": "Delete a quiz",
+                "operationId": "da30c4547fef0f820e720d9f04c2009a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/submissions": {
+            "get": {
+                "tags": [
+                    "Submissions"
+                ],
+                "summary": "List all submissions",
+                "operationId": "705e8a84809feeae7bad7a7aaa25deb5",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Submissions"
+                ],
+                "summary": "Create a submission",
+                "operationId": "be1610bd0ea5ea2760dede3cb3264fbb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "quiz_id",
+                                    "user_id",
+                                    "submitted_at"
+                                ],
+                                "properties": {
+                                    "quiz_id": {
+                                        "type": "integer"
+                                    },
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "submitted_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    },
+                                    "text_answer": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/submissions/{id}": {
+            "get": {
+                "tags": [
+                    "Submissions"
+                ],
+                "summary": "Get a specific submission",
+                "operationId": "097b316d8aeede5d0957bfce701ecb17",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Submissions"
+                ],
+                "summary": "Update a submission (grading)",
+                "operationId": "4475e440b174c34342fa9d33d1564bb2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "score": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "feedback": {
+                                        "type": "string"
+                                    },
+                                    "graded_by_user_id": {
+                                        "type": "integer"
+                                    },
+                                    "graded_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Submissions"
+                ],
+                "summary": "Delete a submission",
+                "operationId": "8d4ddecbbbf7f50b7b219c513d75cee2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/grades": {
+            "get": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "List all grades",
+                "operationId": "460165277309cd491cdd00c67b5bbf79",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "Create a grade record",
+                "operationId": "387aa5e0f2570a5f717ead94ea8de098",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "course_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "course_id": {
+                                        "type": "integer"
+                                    },
+                                    "quiz_assignment_score": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "attendance_percentage": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "mid_eval_score": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "final_eval_score": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "project_score": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "final_grade": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "is_passed": {
+                                        "type": "boolean"
+                                    },
+                                    "graded_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/grades/{id}": {
+            "get": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "Get a grade",
+                "operationId": "83767cda9526b958990505ccca56774e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "Update a grade record",
+                "operationId": "4398f79103954501e90c7f5e6be4e3ae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "quiz_assignment_score": {
+                                        "type": "number"
+                                    },
+                                    "attendance_percentage": {
+                                        "type": "number"
+                                    },
+                                    "mid_eval_score": {
+                                        "type": "number"
+                                    },
+                                    "final_eval_score": {
+                                        "type": "number"
+                                    },
+                                    "project_score": {
+                                        "type": "number"
+                                    },
+                                    "final_grade": {
+                                        "type": "number"
+                                    },
+                                    "is_passed": {
+                                        "type": "boolean"
+                                    },
+                                    "graded_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Grades"
+                ],
+                "summary": "Delete a grade",
+                "operationId": "47d4b2a7fbce68ec538fbe44cacf4e84",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/attendances": {
+            "get": {
+                "tags": [
+                    "Attendances"
+                ],
+                "summary": "List all attendances",
+                "operationId": "d2796e78d9e79f961656a98b553a6d8c",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Attendances"
+                ],
+                "summary": "Create a new attendance record",
+                "operationId": "988683ae6c53619ed330cf98c4aeed1b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "attendance_date",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "sesi_id": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "attendance_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "clock_in_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "clock_out_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "present",
+                                            "late",
+                                            "absent",
+                                            "sick",
+                                            "leave",
+                                            "alpha"
+                                        ]
+                                    },
+                                    "proof_file_path": {
+                                        "type": "string"
+                                    },
+                                    "notes": {
+                                        "type": "string"
+                                    },
+                                    "verified_by_user_id": {
+                                        "type": "integer"
+                                    },
+                                    "verified_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/attendances/{id}": {
+            "get": {
+                "tags": [
+                    "Attendances"
+                ],
+                "summary": "Get a single attendance",
+                "operationId": "06d2236900d42ff19ca353587e7e2094",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Attendances"
+                ],
+                "summary": "Update attendance",
+                "operationId": "f5f413f1c6a4461662cad57562f6c415",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "present",
+                                            "late",
+                                            "absent",
+                                            "sick",
+                                            "leave",
+                                            "alpha"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Attendances"
+                ],
+                "summary": "Delete attendance",
+                "operationId": "aa10f34762e0f04d6fbcb57ff944b395",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/leaves": {
+            "get": {
+                "tags": [
+                    "Leaves"
+                ],
+                "summary": "Get list of all leaves",
+                "operationId": "9b4ec84c11919f0d8e8559f7a956b1df",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Leaves"
+                ],
+                "summary": "Create a new leave",
+                "operationId": "26591ddf7a9259b0b41e865cdf1385ae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "leave_type",
+                                    "start_date",
+                                    "end_date",
+                                    "number_of_days",
+                                    "reason"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "leave_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "annual",
+                                            "sick",
+                                            "personal"
+                                        ]
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "number_of_days": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "reason": {
+                                        "type": "string"
+                                    },
+                                    "proof_file_path": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "approved",
+                                            "rejected"
+                                        ]
+                                    },
+                                    "approved_by_user_id": {
+                                        "type": "integer"
+                                    },
+                                    "approved_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "replacement_user_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/leaves/{id}": {
+            "get": {
+                "tags": [
+                    "Leaves"
+                ],
+                "summary": "Get single leave detail",
+                "operationId": "08c075ddebb2b23c1b24791c47b0cc1d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Leaves"
+                ],
+                "summary": "Update leave data",
+                "operationId": "9eabb6530fed3e268484646fccaaa6d4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "approved",
+                                            "rejected"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Leaves"
+                ],
+                "summary": "Delete leave record",
+                "operationId": "f43c37c7efe87f24ae248f2bf59e366f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/sallaries": {
+            "get": {
+                "tags": [
+                    "Sallaries"
+                ],
+                "summary": "List all sallaries",
+                "operationId": "952d81067208f88e7fc862e13540f224",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Sallaries"
+                ],
+                "summary": "Create new sallary record",
+                "operationId": "392a35ad8463e2eecb5b16f0e85587d8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "month",
+                                    "year",
+                                    "base_salary",
+                                    "total_gross_salary",
+                                    "total_net_salary",
+                                    "generated_at",
+                                    "generated_by_user_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "year": {
+                                        "type": "integer"
+                                    },
+                                    "base_salary": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "overtime_pay": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "alpha_deduction": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "excess_leave_deduction": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "total_gross_salary": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "total_net_salary": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "generated_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "generated_by_user_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/sallaries/{id}": {
+            "get": {
+                "tags": [
+                    "Sallaries"
+                ],
+                "summary": "Get single sallary record",
+                "operationId": "63f4c3d56db22aa835a494e3fef9c795",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Sallaries"
+                ],
+                "summary": "Update sallary record",
+                "operationId": "4dfe874f7cac2b04b18bbf33bf8f6df4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "base_salary": {
+                                        "type": "number",
+                                        "format": "float"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Sallaries"
+                ],
+                "summary": "Delete sallary",
+                "operationId": "b8eab34401d590c9e209c9dd18318c07",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/payroll-settings": {
+            "get": {
+                "tags": [
+                    "Payroll Settings"
+                ],
+                "summary": "List all payroll settings",
+                "operationId": "c950f4ca80fbc9da7427647141a3d311",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Payroll Settings"
+                ],
+                "summary": "Create a new payroll setting",
+                "operationId": "4c26c44a0b9e60c14e71d753b69fb9fd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "setting_key",
+                                    "setting_value"
+                                ],
+                                "properties": {
+                                    "setting_key": {
+                                        "type": "string"
+                                    },
+                                    "setting_value": {
+                                        "type": "string"
+                                    },
+                                    "applies_to_role": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/payroll-settings/{id}": {
+            "get": {
+                "tags": [
+                    "Payroll Settings"
+                ],
+                "summary": "Get single payroll setting",
+                "operationId": "528fb46e2916b4b3f03331f343e5571b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Payroll Settings"
+                ],
+                "summary": "Update payroll setting",
+                "operationId": "2946f7a76d328b69b615283403622701",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "setting_value": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Payroll Settings"
+                ],
+                "summary": "Delete payroll setting",
+                "operationId": "22d2c3118be0ac3619cbd192584e3af0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/certificates": {
+            "get": {
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "List all certificates",
+                "operationId": "8a74fcc094b7c365298afef0d7bba04c",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Create a new certificate",
+                "operationId": "c3a41e781283e353344a5d8832b2181b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "course_id",
+                                    "certificate_number",
+                                    "issue_date",
+                                    "qr_code_url",
+                                    "file_path",
+                                    "signed_by_user_id"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "course_id": {
+                                        "type": "integer"
+                                    },
+                                    "certificate_number": {
+                                        "type": "string"
+                                    },
+                                    "issue_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "qr_code_url": {
+                                        "type": "string"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    },
+                                    "signed_by_user_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/certificates/{id}": {
+            "get": {
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Get single certificate",
+                "operationId": "4e69a01a8bbcb093f8cd046121a14f30",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Update certificate",
+                "operationId": "6b2841e8724dc1ebd605ee83d6331b3a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "certificate_number": {
+                                        "type": "string"
+                                    },
+                                    "issue_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "qr_code_url": {
+                                        "type": "string"
+                                    },
+                                    "file_path": {
+                                        "type": "string"
+                                    },
+                                    "signed_by_user_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Certificates"
+                ],
+                "summary": "Delete certificate",
+                "operationId": "ec33c745d060c1e4c5bf285133de24f1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/system-notifications": {
+            "get": {
+                "tags": [
+                    "System Notifications"
+                ],
+                "summary": "List all notifications",
+                "operationId": "9b2d93e639225eb91d49aaffaaa8ac0a",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "System Notifications"
+                ],
+                "summary": "Create a new notification",
+                "operationId": "b4c7f1eb73c4895b7a05be40b77278ea",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "type",
+                                    "subject",
+                                    "message",
+                                    "status",
+                                    "sent_at"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "email",
+                                            "whatsapp"
+                                        ]
+                                    },
+                                    "subject": {
+                                        "type": "string"
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "sent",
+                                            "failed"
+                                        ]
+                                    },
+                                    "sent_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/system-notifications/{id}": {
+            "get": {
+                "tags": [
+                    "System Notifications"
+                ],
+                "summary": "Get single notification",
+                "operationId": "690ef93936588ebc1e1f9919b0a3f259",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "System Notifications"
+                ],
+                "summary": "Update notification",
+                "operationId": "a6560026fb142b6dfb1ddd86486935b8",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "sent",
+                                            "failed"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "System Notifications"
+                ],
+                "summary": "Delete notification",
+                "operationId": "eff988014512d8b0cd5ef4003e51699b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/company-profile-settings": {
+            "get": {
+                "tags": [
+                    "Company Profile Settings"
+                ],
+                "summary": "List all company profile settings",
+                "operationId": "b1aa47bd0d82d0c6618981a6074da909",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Company Profile Settings"
+                ],
+                "summary": "Create a new setting",
+                "operationId": "175d736921861249cef43dd781870078",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "setting_key",
+                                    "setting_value"
+                                ],
+                                "properties": {
+                                    "setting_key": {
+                                        "type": "string"
+                                    },
+                                    "setting_value": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/company-profile-settings/{id}": {
+            "get": {
+                "tags": [
+                    "Company Profile Settings"
+                ],
+                "summary": "Get single setting",
+                "operationId": "ff5e8876be24349a03d07a896df4ce6c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Company Profile Settings"
+                ],
+                "summary": "Update setting",
+                "operationId": "5bdbe5bdf58888ba79c8df8793310705",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "setting_key": {
+                                        "type": "string"
+                                    },
+                                    "setting_value": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Company Profile Settings"
+                ],
+                "summary": "Delete setting",
+                "operationId": "2603deb95c91aee8731d0a1a46aa4a2e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/blog-posts": {
+            "get": {
+                "tags": [
+                    "Blog Posts"
+                ],
+                "summary": "List all blog posts",
+                "operationId": "5ae77dc21a92104e27382b5b85d96561",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Blog Posts"
+                ],
+                "summary": "Create a new blog post",
+                "operationId": "dd84daf9fc4621cebcd9174d0ca47ad7",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "slug",
+                                    "content",
+                                    "author_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "author_id": {
+                                        "type": "integer"
+                                    },
+                                    "published_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "is_published": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/blog-posts/{id}": {
+            "get": {
+                "tags": [
+                    "Blog Posts"
+                ],
+                "summary": "Get single blog post",
+                "operationId": "aa6228ae7df9904c323ac7fcf6c96d76",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Blog Posts"
+                ],
+                "summary": "Update blog post",
+                "operationId": "dcdaec6ba03722867a8f342f9200ee4e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "slug": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "published_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "is_published": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Blog Posts"
+                ],
+                "summary": "Delete blog post",
+                "operationId": "18d432b2e906e122b5764250ff1f7fbc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        },
+        "/api/everything/payment-transactions": {
+            "get": {
+                "tags": [
+                    "Payment Transactions"
+                ],
+                "summary": "List all payment transactions",
+                "operationId": "9ba5c6daf32779a2a1f03d3ce35759d8",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Payment Transactions"
+                ],
+                "summary": "Create a new payment transaction",
+                "operationId": "218464f6f62a849b66f5d9c9317c3f3c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "course_enrollment_id",
+                                    "midtrans_order_id",
+                                    "amount",
+                                    "currency",
+                                    "payment_method",
+                                    "transaction_status",
+                                    "transaction_time"
+                                ],
+                                "properties": {
+                                    "course_enrollment_id": {
+                                        "type": "integer"
+                                    },
+                                    "midtrans_order_id": {
+                                        "type": "string"
+                                    },
+                                    "midtrans_transaction_id": {
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "currency": {
+                                        "type": "string"
+                                    },
+                                    "payment_method": {
+                                        "type": "string"
+                                    },
+                                    "transaction_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "pending",
+                                            "settlement",
+                                            "expire",
+                                            "cancel",
+                                            "deny",
+                                            "refund",
+                                            "partial_refund",
+                                            "capture",
+                                            "authorize"
+                                        ]
+                                    },
+                                    "transaction_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "settlement_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "expiry_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "raw_response": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/everything/payment-transactions/{id}": {
+            "get": {
+                "tags": [
+                    "Payment Transactions"
+                ],
+                "summary": "Get single payment transaction",
+                "operationId": "72b1b66528945011632f91ba56ed09c4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Payment Transactions"
+                ],
+                "summary": "Update payment transaction",
+                "operationId": "82adc62814a8f51c31a548e956681132",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "transaction_status": {
+                                        "type": "string"
+                                    },
+                                    "settlement_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "expiry_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "raw_response": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Payment Transactions"
+                ],
+                "summary": "Delete payment transaction",
+                "operationId": "4fbc6d7550279e5377710a73296d8a98",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deleted"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Departments",
+            "description": "Departments"
+        },
+        {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
+            "name": "Courses",
+            "description": "Courses"
+        },
+        {
+            "name": "Branch Offices",
+            "description": "Branch Offices"
+        },
+        {
+            "name": "Syllabi",
+            "description": "Syllabi"
+        },
+        {
+            "name": "Course Enrollments",
+            "description": "Course Enrollments"
+        },
+        {
+            "name": "Sesi",
+            "description": "Sesi"
+        },
+        {
+            "name": "Modules",
+            "description": "Modules"
+        },
+        {
+            "name": "Quizzes",
+            "description": "Quizzes"
+        },
+        {
+            "name": "Submissions",
+            "description": "Submissions"
+        },
+        {
+            "name": "Grades",
+            "description": "Grades"
+        },
+        {
+            "name": "Attendances",
+            "description": "Attendances"
+        },
+        {
+            "name": "Leaves",
+            "description": "Leaves"
+        },
+        {
+            "name": "Sallaries",
+            "description": "Sallaries"
+        },
+        {
+            "name": "Payroll Settings",
+            "description": "Payroll Settings"
+        },
+        {
+            "name": "Certificates",
+            "description": "Certificates"
+        },
+        {
+            "name": "System Notifications",
+            "description": "System Notifications"
+        },
+        {
+            "name": "Company Profile Settings",
+            "description": "Company Profile Settings"
+        },
+        {
+            "name": "Blog Posts",
+            "description": "Blog Posts"
+        },
+        {
+            "name": "Payment Transactions",
+            "description": "Payment Transactions"
+        }
+    ]
+}

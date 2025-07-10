@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('expertise_area')->nullable();
             $table->enum('teaching_status', ['active', 'inactive'])->nullable();
             $table->enum('role', [
+                'super_admin',
                 'admin_company', 
                 'admin_hrm', 
                 'admin_lms', 

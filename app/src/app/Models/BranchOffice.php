@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class BranchOffice extends Model
 {
     use HasFactory;
-    protected $table = 'branch_office';
+    protected $table = 'branch_offices';
     protected $guarded = ['id'];
 
     /**

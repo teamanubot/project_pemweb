@@ -88,7 +88,7 @@ class UserResource extends Resource
                             ->required()
                             ->multiple()
                             ->relationship('roles', 'name')
-                            ->label('Roles'),
+                            ->label('Roles Permission'),
                     ])
                     ->columns(1),
 
@@ -115,6 +115,7 @@ class UserResource extends Resource
                     ->nullable(),
                 Forms\Components\Select::make('role')
                     ->options([
+                        'super_admin' => 'Super Admin',
                         'admin_company' => 'Admin Company',
                         'admin_hrm' => 'Admin HRM',
                         'admin_lms' => 'Admin LMS',
@@ -152,7 +153,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('roles.name')
                     ->badge()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->label('Role'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->date()
                     ->sortable()
@@ -160,7 +162,6 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('job_title'),
                 Tables\Columns\TextColumn::make('department.name')->label('Department'),
                 Tables\Columns\TextColumn::make('employment_status')->badge(),
-                Tables\Columns\TextColumn::make('role')->badge(),
 
 
             ])

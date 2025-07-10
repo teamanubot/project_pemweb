@@ -16,5 +16,10 @@ class DepartmentsTableSeeder extends Seeder {
             ['id' => 2],
             ['name' => 'HR & Operasional', 'description' => 'Departemen HR & Operasional', 'created_at' => now(), 'updated_at' => now()]
         );
+
+        DB::table('departments')->updateOrInsert(
+            ['id' => 3],
+            ['name' => 'Mahasiswa', 'description' => 'Departemen Mahasiswa', 'created_at' => now(), 'updated_at' => now()]
+        );
     }
 }

@@ -11,7 +11,7 @@ class EnsureUserIsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!in_array(Auth::user()?->role, ['super_admin', 'admin_company', 'admin_hrm', 'admin_lms', 'admin_akademik', 'admin_hr'])) {
+        if (!in_array(Auth::user()?->role, ['adminsuper', 'admin_company', 'admin_hrm', 'admin_lms', 'admin_akademik', 'admin_hr'])) {
             abort(403, 'Unauthorized');
         }
 

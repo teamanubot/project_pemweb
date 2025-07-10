@@ -1,7 +1,7 @@
 <?php
 
-use App\Livewire\BlogPage;
 use App\Livewire\MainPage;
+use App\Livewire\BlogPage;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 

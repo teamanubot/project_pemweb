@@ -11,6 +11,7 @@
         "awcodes/overlook": "*",
         "aymanalhattami/filament-slim-scrollbar": "*",
         "bezhansalleh/filament-shield": "*",
+        "darkaonline/l5-swagger": "^9.0",
         "diogogpinto/filament-auth-ui-enhancer": "*",
         "filament/filament": "^3.3",
         "hasnayeen/themes": "*",

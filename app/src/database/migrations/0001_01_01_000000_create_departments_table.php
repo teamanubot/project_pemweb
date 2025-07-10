@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['Akademik', 'HR & Operasional']);
+            $table->enum('name', ['Akademik', 'HR & Operasional', 'Mahasiswa']);
             $table->text('description');
             $table->timestamps();
         });
