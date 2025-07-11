@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +12,10 @@ class EnsureUserIsInstructor
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()?->role !== 'teacher') {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user || !$user->isInstructor()) {
             abort(403, 'Unauthorized');
         }
 

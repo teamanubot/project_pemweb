@@ -11,3 +11,4 @@ class BlogPage extends Component
         return view('livewire.blog-page');
     }
 }
+    

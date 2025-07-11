@@ -38,7 +38,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'onboarding_date',
         'expertise_area',
         'teaching_status',
-        'role',
     ];
 
     /**
@@ -65,7 +64,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
             'password' => 'hashed',
             'employment_status' => 'string',
             'teaching_status' => 'string',
-            'role' => 'string',
         ];
     }
 
@@ -82,7 +80,6 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         return $this->hasMany(Submission::class);
     }
 
-
     /**
      * Contoh relasi lain ke enrollments, submissions, dll bisa ditambahkan jika diperlukan
      */
@@ -98,20 +95,42 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         }
     }
 
+    public function isAdminPanelUser(): bool
+    {
+        return $this->hasAnyRole([
+            'super_admin',
+            'admin_company',
+            'admin_hrm',
+            'admin_lms',
+            'admin_akademik',
+            'admin_hr',
+        ], 'admin');
+    }
+
+    public function isInstructor(): bool
+    {
+        return $this->hasRole('teacher', 'instructor');
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->hasRole('student', 'student');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return match ($panel->getId()) {
-            'instructor' => $this->role === 'teacher',
-            'sso' => $this->role === 'student',
-            'admin' => in_array($this->role, [
+            'admin'      => $this->hasAnyRole([
+                'super_admin',
                 'admin_company',
                 'admin_hrm',
                 'admin_lms',
                 'admin_akademik',
                 'admin_hr',
-                'adminsuper',
-            ]),
-            default => false,
+            ], 'admin'),
+            'instructor' => $this->hasRole('teacher', 'instructor'),
+            'sso'        => $this->hasRole('student', 'student'),
+            default      => false,
         };
     }
 }

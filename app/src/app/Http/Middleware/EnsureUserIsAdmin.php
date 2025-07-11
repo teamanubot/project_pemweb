@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,7 +12,10 @@ class EnsureUserIsAdmin
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (!in_array(Auth::user()?->role, ['adminsuper', 'admin_company', 'admin_hrm', 'admin_lms', 'admin_akademik', 'admin_hr'])) {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user || !$user->isAdminPanelUser()) {
             abort(403, 'Unauthorized');
         }
 

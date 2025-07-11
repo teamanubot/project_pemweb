@@ -18,6 +18,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\MenuItem;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
 class SsoPanelProvider extends PanelProvider
 {
@@ -30,6 +32,7 @@ class SsoPanelProvider extends PanelProvider
                 'primary' => Color::Red,
             ])
             ->login()
+            ->profile(\App\Filament\Pages\Auth\EditProfile::class, isSimple: false)
             ->discoverResources(in: app_path('Filament/Sso/Resources'), for: 'App\\Filament\\Sso\\Resources')
             ->discoverPages(in: app_path('Filament/Sso/Pages'), for: 'App\\Filament\\Sso\\Pages')
             ->pages([
@@ -38,7 +41,6 @@ class SsoPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Sso/Widgets'), for: 'App\\Filament\\Sso\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make()
@@ -72,6 +74,57 @@ class SsoPanelProvider extends PanelProvider
                 NavigationGroup::make()
                     ->label('Administration')
                     ->icon('heroicon-o-shield-check'),
+            ])
+            ->userMenuItems([
+                'profile' => MenuItem::make()
+                    ->label(fn() => \Illuminate\Support\Facades\Auth::user()?->name)
+                    ->url(fn(): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle'),
+                // 'profile' => \Filament\Navigation\MenuItem::make()
+                //     ->label(fn () => auth()->user()->name)
+                //     ->icon('heroicon-m-user-circle'),
+            ])
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
+                    ->gridColumns([
+                        'default' => 2,
+                        'lg' => 3,
+                    ])
+                    ->sectionColumnSpan(1)
+                    ->checkboxListColumns([
+                        'default' => 2,
+                        'lg' => 3,
+                    ])
+                    ->resourceCheckboxListColumns([
+                        'default' => 2,
+                        'lg' => 3,
+                    ]),
+                \Hasnayeen\Themes\ThemesPlugin::make(),
+                \Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin::make()->color('#29b'),
+                \DiogoGPinto\AuthUIEnhancer\AuthUIEnhancerPlugin::make()
+                    ->showEmptyPanelOnMobile(false)
+                    ->formPanelPosition('right')
+                    ->formPanelWidth('40%')
+                    ->emptyPanelBackgroundImageOpacity('70%')
+                    ->emptyPanelBackgroundImageUrl('https://picsum.photos/seed/picsum/1260/750.webp/?blur=1'),
+                \Awcodes\LightSwitch\LightSwitchPlugin::make()
+                    ->position(\Awcodes\LightSwitch\Enums\Alignment::BottomCenter)
+                    ->enabledOn([
+                        'auth.login',
+                        'auth.password',
+                    ]),
+                \Awcodes\Overlook\OverlookPlugin::make()
+                    ->includes([
+                        \App\Filament\Admin\Resources\UserResource::class,
+                    ]),
+                \Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin::make()
+                    ->slug('my-profile')
+                    ->setTitle('My Profile')
+                    ->shouldRegisterNavigation(false)
+                    ->shouldShowDeleteAccountForm(false)
+                    ->shouldShowSanctumTokens(false)
+                    ->shouldShowBrowserSessionsForm()
+                    ->shouldShowAvatarForm(),
             ])
             ->middleware([
                 EncryptCookies::class,

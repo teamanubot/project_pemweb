@@ -97,14 +97,12 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('nik')->required(),
                 Forms\Components\TextInput::make('job_title')->required(),
                 Forms\Components\Select::make('department_id')
-                    ->relationship('department', 'name')
-                    ->required(),
+                    ->relationship('department', 'name'),
                 Forms\Components\Select::make('employment_status')
                     ->options([
                         'active' => 'Active',
                         'inactive' => 'Inactive',
-                    ])
-                    ->required(),
+                    ]),
                 Forms\Components\DatePicker::make('onboarding_date')->required(),
                 Forms\Components\TextInput::make('expertise_area')->label('Expertise Area')->nullable(),
                 Forms\Components\Select::make('teaching_status')
@@ -113,18 +111,6 @@ class UserResource extends Resource
                         'inactive' => 'Inactive',
                     ])
                     ->nullable(),
-                Forms\Components\Select::make('role')
-                    ->options([
-                        'super_admin' => 'Super Admin',
-                        'admin_company' => 'Admin Company',
-                        'admin_hrm' => 'Admin HRM',
-                        'admin_lms' => 'Admin LMS',
-                        'admin_akademik' => 'Admin Akademik',
-                        'admin_hr' => 'Admin HR',
-                        'teacher' => 'Teacher',
-                        'student' => 'Student',
-                    ])
-                    ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()

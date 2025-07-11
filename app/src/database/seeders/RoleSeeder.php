@@ -50,56 +50,92 @@ class RoleSeeder extends Seeder
             \App\Models\User::class,
         ];
 
-        $roleModelAccessMap = [
-            'super_admin' => $models,
-
-            'admin_company' => [
-                \App\Models\BranchOffice::class,
-                \App\Models\BlogPost::class,
-                \App\Models\CompanyProfileSetting::class,
-                \App\Models\Department::class,
-                \App\Models\SystemNotification::class,
+        $roleModelPermissionMap = [
+            'super_admin' => [
+                '*' => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
             ],
 
-            'admin_lms' => [
-                \App\Models\Course::class,
-                \App\Models\CourseEnrollment::class,
-                \App\Models\Module::class,
-                \App\Models\Syllabus::class,
-                \App\Models\Quiz::class,
-                \App\Models\Submission::class,
-                \App\Models\Grade::class,
+            'admin_company' => [
+                \App\Models\CompanyProfileSetting::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\BlogPost::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\User::class => ['view', 'view any'],
             ],
 
             'admin_hrm' => [
-                \App\Models\Attendance::class,
-                \App\Models\Leave::class,
-                \App\Models\PayrollSetting::class,
-                \App\Models\Sallary::class,
-                \App\Models\User::class,
+                \App\Models\User::class => ['view', 'view any', 'update'],
+                \App\Models\Department::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\BranchOffice::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\Sesi::class => ['create', 'view', 'view any', 'update'],
+                \App\Models\Attendance::class => ['view', 'view any', 'update'],
+                \App\Models\Leave::class => ['view', 'view any', 'update'],
+                \App\Models\Sallary::class => ['create', 'view', 'view any', 'update'],
+                \App\Models\PayrollSetting::class => ['view', 'view any', 'update'],
+                \App\Models\SystemNotification::class => ['create', 'view', 'view any'],
+                \App\Models\PaymentTransaction::class => ['view', 'view any'],
+            ],
+
+            'admin_lms' => [
+                \App\Models\Course::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\CourseEnrollment::class => ['view', 'view any'],
+                \App\Models\Syllabus::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\Module::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\Quiz::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\Submission::class => ['view', 'view any'],
+                \App\Models\Grade::class => ['view', 'view any'],
+                \App\Models\Certificate::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\SystemNotification::class => ['create', 'view', 'view any'],
             ],
 
             'admin_akademik' => [
-                \App\Models\Department::class,
-                \App\Models\CourseEnrollment::class,
-                \App\Models\Grade::class,
-                \App\Models\Certificate::class,
-                \App\Models\Sesi::class,
+                \App\Models\Sesi::class => ['view', 'view any', 'update'],
+                \App\Models\Syllabus::class => ['view', 'view any', 'update'],
+                \App\Models\Module::class => ['view', 'view any', 'update'],
+                \App\Models\Quiz::class => ['view', 'view any', 'update'],
+                \App\Models\Grade::class => ['view', 'view any'],
+                \App\Models\Attendance::class => ['view', 'view any'],
+                \App\Models\Certificate::class => ['view', 'view any'],
             ],
 
             'admin_hr' => [
-                \App\Models\User::class,
-                \App\Models\Leave::class,
+                \App\Models\User::class => ['view', 'view any', 'update'],
+                \App\Models\Attendance::class => ['view', 'view any', 'update'],
+                \App\Models\Leave::class => ['view', 'view any', 'update'],
+                \App\Models\Sallary::class => ['view', 'view any', 'update'],
+                \App\Models\PayrollSetting::class => ['view', 'view any'],
+                \App\Models\PaymentTransaction::class => ['view', 'view any'],
             ],
 
             'teacher' => [
-                \App\Models\Course::class,
-                \App\Models\Module::class,
-                \App\Models\Quiz::class,
-                \App\Models\Submission::class,
-                \App\Models\Grade::class,
+                \App\Models\User::class => ['view', 'update'],
+                \App\Models\Sesi::class => ['view', 'view any'],
+                \App\Models\Syllabus::class => ['create', 'view', 'view any', 'update'],
+                \App\Models\Module::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
+                \App\Models\Quiz::class => ['create', 'view', 'view any', 'update'],
+                \App\Models\Submission::class => ['view', 'view any', 'update'],
+                \App\Models\Grade::class => ['view', 'view any', 'update'],
+                \App\Models\Attendance::class => ['create', 'view', 'view any'],
+                \App\Models\Leave::class => ['create', 'view', 'view any'],
+                \App\Models\Sallary::class => ['view', 'view any'],
+                \App\Models\Course::class => ['view', 'view any'],
+                \App\Models\CourseEnrollment::class => ['view', 'view any'],
+            ],
+
+            'student' => [
+                \App\Models\User::class => ['view', 'update'],
+                \App\Models\CourseEnrollment::class => ['create', 'view', 'view any', 'update'],
+                \App\Models\Module::class => ['view', 'view any'],
+                \App\Models\Quiz::class => ['create', 'view', 'view any'],
+                \App\Models\Submission::class => ['create', 'view', 'view any', 'update'],
+                \App\Models\Grade::class => ['view', 'view any'],
+                \App\Models\Attendance::class => ['create', 'view', 'view any'],
+                \App\Models\Certificate::class => ['view', 'view any'],
+                \App\Models\PaymentTransaction::class => ['create', 'view', 'view any'],
+                \App\Models\SystemNotification::class => ['view', 'view any'],
+                \App\Models\CompanyProfileSetting::class => ['view', 'view any'],
+                \App\Models\BlogPost::class => ['view', 'view any'],
             ],
         ];
+
 
         $crudPermissions = ['view', 'view any', 'create', 'update', 'delete', 'delete any'];
         $widgetPermissions = ['overlook widget', 'latest access logs'];
@@ -133,27 +169,34 @@ class RoleSeeder extends Seeder
         }
 
         // Step 3: Assign permission to roles as mapped
-        foreach ($roleModelAccessMap as $roleName => $accessibleModels) {
-            $role  = Role::where('name', $roleName)->first();
+        foreach ($roleModelPermissionMap as $roleName => $modelPermission) {
+            $role = Role::where('name', $roleName)->first();
             $guard = $roleGuardMap[$roleName];
 
-            $perms = [];
+            $permissions = [];
 
-            foreach ($accessibleModels as $model) {
-                $modelName = $this->formatModelName($model);
-                foreach ($crudPermissions as $perm) {
-                    $perms[] = str_replace(' ', '_', "{$perm}_{$modelName}");
+            foreach ($modelPermission as $model => $perms) {
+                if ($model === '*') {
+                    foreach ($models as $m) {
+                        $modelName = $this->formatModelName($m);
+                        foreach ($perms as $perm) {
+                            $permissions[] = str_replace(' ', '_', "{$perm}_{$modelName}");
+                        }
+                    }
+                } else {
+                    $modelName = $this->formatModelName($model);
+                    foreach ($perms as $perm) {
+                        $permissions[] = str_replace(' ', '_', "{$perm}_{$modelName}");
+                    }
                 }
             }
 
-            // Add widget permission regardless of models
             foreach ($widgetPermissions as $widgetPerm) {
-                $perms[] = $widgetPerm;
+                $permissions[] = $widgetPerm;
             }
 
-            // Assign permissions
             $role->syncPermissions(
-                Permission::whereIn('name', $perms)->where('guard_name', $guard)->pluck('name')->toArray()
+                Permission::whereIn('name', $permissions)->where('guard_name', $guard)->pluck('name')->toArray()
             );
         }
     }

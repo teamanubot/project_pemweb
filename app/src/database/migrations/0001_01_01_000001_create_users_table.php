@@ -22,21 +22,11 @@ return new class extends Migration
             $table->text('address');
             $table->string('nik');
             $table->string('job_title');
-            $table->foreignId('department_id')->constrained('departments');
-            $table->enum('employment_status', ['active', 'inactive']);
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
+            $table->enum('employment_status', ['active', 'inactive'])->nullable();
             $table->date('onboarding_date');
-            $table->string('expertise_area')->nullable();
+            $table->string('expertise_area')->nullable();           
             $table->enum('teaching_status', ['active', 'inactive'])->nullable();
-            $table->enum('role', [
-                'super_admin',
-                'admin_company', 
-                'admin_hrm', 
-                'admin_lms', 
-                'admin_akademik', 
-                'admin_hr', 
-                'teacher', 
-                'student'
-            ]);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Admin Management',
                 'teaching_status'   => 'inactive',
-                'role' => 'super_admin',
+                
                 'remember_token' => Str::random(10),
             ]
         );
@@ -53,7 +53,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Web Development',
                 'teaching_status' => 'active',
-                'role' => 'teacher',
+                
                 'remember_token' => Str::random(10),
             ]
         );
@@ -76,7 +76,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Web Development',
                 'teaching_status' => 'inactive',
-                'role' => 'admin_company',
+                
                 'remember_token' => Str::random(10),
             ]
         );
@@ -99,7 +99,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Human Resource Management',
                 'teaching_status' => 'inactive',
-                'role' => 'admin_hrm',
+                
             ]
         );
 
@@ -121,7 +121,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Learning Management',
                 'teaching_status' => 'inactive',
-                'role' => 'admin_lms',
+                
             ]
         );
 
@@ -143,7 +143,6 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Education',
                 'teaching_status' => 'inactive',
-                'role' => 'admin_akademik',
             ]
         );
 
@@ -165,7 +164,6 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'HR',
                 'teaching_status' => 'inactive',
-                'role' => 'admin_hr',
             ]
         );
 
@@ -183,42 +181,41 @@ class UsersTableSeeder extends Seeder
                 'address' => 'Jakarta',
                 'nik' => '3276010101010003',
                 'job_title' => 'Student',
-                'department_id' => 3,
-                'employment_status' => 'active',
+                'department_id' => null,
+                'employment_status' => null,
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Web Development',
-                'teaching_status' => 'inactive',
-                'role' => 'student',
+                'teaching_status' => null,
                 'remember_token' => Str::random(10),
             ]
         );
 
-        $super_adminRole = Role::where('name', 'adminsuper')->where('guard_name', 'web')->first();
+        $super_adminRole = Role::where('name', 'super_admin')->where('guard_name', 'admin')->first();
         if ($super_adminRole) {
             $super_admin->roles()->attach($super_adminRole); // assign role langsung
         }
 
-        $adminCompanyRole = Role::where('name', 'admin_company')->where('guard_name', 'web')->first();
+        $adminCompanyRole = Role::where('name', 'admin_company')->where('guard_name', 'admin')->first();
         if ($adminCompanyRole) {
             $adminCompany->roles()->attach($adminCompanyRole); // assign role langsung
         }
 
-        $adminLMSRole = Role::where('name', 'admin_lms')->where('guard_name', 'web')->first();
+        $adminLMSRole = Role::where('name', 'admin_lms')->where('guard_name', 'admin')->first();
         if ($adminLMSRole) {
             $adminLMS->roles()->attach($adminLMSRole); // assign role langsung
         }
 
-        $adminHRMRole = Role::where('name', 'admin_hrm')->where('guard_name', 'web')->first();
+        $adminHRMRole = Role::where('name', 'admin_hrm')->where('guard_name', 'admin')->first();
         if ($adminHRMRole) {
             $adminHRM->roles()->attach($adminHRMRole); // assign role langsung
         }
 
-        $adminHRRole = Role::where('name', 'admin_hr')->where('guard_name', 'web')->first();
+        $adminHRRole = Role::where('name', 'admin_hr')->where('guard_name', 'admin')->first();
         if ($adminHRRole) {
             $adminHR->roles()->attach($adminHRRole); // assign role langsung
         }
 
-        $adminAkademikRole = Role::where('name', 'admin_akademik')->where('guard_name', 'web')->first();
+        $adminAkademikRole = Role::where('name', 'admin_akademik')->where('guard_name', 'admin')->first();
         if ($adminAkademikRole) {
             $adminAkademik->roles()->attach($adminAkademikRole); // assign role langsung
         }
