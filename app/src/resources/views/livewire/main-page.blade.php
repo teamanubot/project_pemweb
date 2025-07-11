@@ -237,7 +237,7 @@
                         <p>Daftar sekarang sebelum kehabisan kelas terbatas kami, latih keahlianmu untuk melangkah ke
                             jenjang
                             karir.</p>
-                        <a class="cta-btn" href="#">Daftar Sekarang!</a>
+                        <a class="cta-btn" href="{{ url('/sso') }}">Daftar Sekarang!</a>
                     </div>
                 </div>
             </div>
