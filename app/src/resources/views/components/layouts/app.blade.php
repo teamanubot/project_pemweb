@@ -48,7 +48,7 @@
 				<!-- virya nambahin ini -->
 				<div class="login-mobile" style="margin-left: 20px;">
 					<ul class="login-mobile-btn">
-						<a href="{{ url('/admin') }}" class="login-btn-mobile" style="padding: 10px 30px;">Masuk</a>
+						<a href="{{ url('/sso') }}" class="login-btn-mobile" style="padding: 10px 30px;">Masuk</a>
 						<a href="{{ url('/admin') }}" class="sign-btn-mobile" style="padding: 10px 30px;">Daftar</a>
 					</ul>
 				</div>
@@ -61,7 +61,7 @@
 					<li><a href="{{ url('/#about') }}">About</a></li>
 					<li><a href="{{ url('/#contact') }}">Contact</a></li>
 					<li><a href="{{ url('/blog') }}">Blog</a></li>
-					<a href="{{ url('/admin') }}" class="login-btn" style="padding: 10px 30px;">Masuk</a>
+					<a href="{{ url('/sso') }}" class="login-btn" style="padding: 10px 30px;">Masuk</a>
 				</ul>
 				<i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
 			</nav>

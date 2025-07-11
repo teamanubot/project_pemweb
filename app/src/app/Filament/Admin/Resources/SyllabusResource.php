@@ -33,9 +33,27 @@ class SyllabusResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('file_path')
-                    ->required()
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('file_path')
+                    ->label('Upload Dokumen')
+                    ->directory('Syllabus') // folder penyimpanan di storage/app/public/Syllabus
+                    ->acceptedFileTypes([
+                        'application/pdf',
+                        'application/msword', // .doc
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+                    ])
+                    ->maxSize(102400) // maksimal 2MB
+                    ->disk('public') // gunakan disk 'public' (pastikan `php artisan storage:link` sudah dijalankan)
+                    ->nullable()
+                    ->getUploadedFileNameForStorageUsing(function ($file, $get) {
+                        $course = \App\Models\Course::find($get('course_id'));
+
+                        $courseTitle = $course?->name ?? 'course';
+                        $title = $get('title') ?? 'Untitled';
+
+                        $extension = $file->getClientOriginalExtension();
+
+                        return "{$courseTitle} - {$title}.{$extension}";
+                    }),
                 Forms\Components\Toggle::make('is_verified')
                     ->required(),
                 Forms\Components\TextInput::make('verified_by_user_id')
@@ -74,6 +92,14 @@ class SyllabusResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn($record) => route('syllabus.download', ['filename' => basename($record->file_path)]))
+                    ->openUrlInNewTab(true) // WAJIB dibuka di tab baru agar browser force download
+                    ->button()
+                    ->color('success')
+                    ->visible(fn($record) => filled($record->file_path)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

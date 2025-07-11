@@ -11,6 +11,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -29,10 +30,13 @@ class InstructorPanelProvider extends PanelProvider
         return $panel
             ->id('instructor')
             ->path('instructor')
+            ->spa()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Pink,
             ])
             ->login()
+            ->maxContentWidth(MaxWidth::SevenExtraLarge)
+            ->sidebarCollapsibleOnDesktop()
             ->profile(\App\Filament\Pages\Auth\EditProfile::class, isSimple: false)
             ->discoverResources(in: app_path('Filament/Instructor/Resources'), for: 'App\\Filament\\Instructor\\Resources')
             ->discoverPages(in: app_path('Filament/Instructor/Pages'), for: 'App\\Filament\\Instructor\\Pages')
@@ -107,7 +111,7 @@ class InstructorPanelProvider extends PanelProvider
                     ->formPanelPosition('right')
                     ->formPanelWidth('40%')
                     ->emptyPanelBackgroundImageOpacity('70%')
-                    ->emptyPanelBackgroundImageUrl('https://picsum.photos/seed/picsum/1260/750.webp/?blur=1'),
+                    ->emptyPanelBackgroundImageUrl('https://images.pexels.com/photos/2310713/pexels-photo-2310713.jpeg?_gl=1*2dwux8*_ga*MTkzNDAyNjQ3NC4xNzUyMjY0MDIx*_ga_8JE65Q40S6*czE3NTIyNjQwMjEkbzEkZzEkdDE3NTIyNjQwMjMkajU4JGwwJGgw'),
                 \Awcodes\LightSwitch\LightSwitchPlugin::make()
                     ->position(\Awcodes\LightSwitch\Enums\Alignment::BottomCenter)
                     ->enabledOn([
@@ -127,6 +131,7 @@ class InstructorPanelProvider extends PanelProvider
                     ->shouldShowBrowserSessionsForm()
                     ->shouldShowAvatarForm(),
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

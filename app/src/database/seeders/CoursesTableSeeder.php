@@ -24,7 +24,7 @@ class CoursesTableSeeder extends Seeder
                 'duration_months' => 5,
                 'total_sessions' => 60,
                 'price' => 18000000,
-                'is_active' => true,
+                'is_active' => false,
             ],
             [
                 'name' => 'UI/UX Design',
@@ -32,7 +32,7 @@ class CoursesTableSeeder extends Seeder
                 'duration_months' => 3,
                 'total_sessions' => 36,
                 'price' => 12000000,
-                'is_active' => true,
+                'is_active' => false,
             ],
         ];
 

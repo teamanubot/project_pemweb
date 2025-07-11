@@ -32,9 +32,28 @@ class SubmissionResource extends Resource
                     ->required(),
                 Forms\Components\DateTimePicker::make('submitted_at')
                     ->required(),
-                Forms\Components\TextInput::make('file_path')
-                    ->maxLength(255)
-                    ->default(null),
+                Forms\Components\FileUpload::make('file_path')
+                    ->label('Upload Dokumen')
+                    ->directory('Submission') // folder penyimpanan di storage/app/public/Submission
+                    ->acceptedFileTypes([
+                        'application/pdf',
+                        'application/msword', // .doc
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+                    ])
+                    ->maxSize(102400) // maksimal 2MB
+                    ->disk('public') // gunakan disk 'public' (pastikan `php artisan storage:link` sudah dijalankan)
+                    ->nullable()
+                    ->getUploadedFileNameForStorageUsing(function ($file, $get) {
+                        $quiz = \App\Models\Quiz::find($get('quiz_id'));
+                        $user = \App\Models\User::find($get('user_id'));
+
+                        $quizTitle = $quiz?->title ?? 'quiz';
+                        $userName = $user?->name ?? 'user';
+
+                        $extension = $file->getClientOriginalExtension();
+
+                        return "{$quizTitle} - {$userName}.{$extension}";
+                    }),
                 Forms\Components\Textarea::make('text_answer')
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('score')
@@ -87,6 +106,14 @@ class SubmissionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn($record) => route('submission.download', ['filename' => basename($record->file_path)]))
+                    ->openUrlInNewTab(true) // WAJIB dibuka di tab baru agar browser force download
+                    ->button()
+                    ->color('success')
+                    ->visible(fn($record) => filled($record->file_path)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

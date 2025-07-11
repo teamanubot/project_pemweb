@@ -12,6 +12,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets;
+use Filament\Support\Enums\MaxWidth;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -29,7 +30,7 @@ class SsoPanelProvider extends PanelProvider
             ->id('sso')
             ->path('sso')
             ->colors([
-                'primary' => Color::Red,
+                'primary' => Color::Violet,
             ])
             ->login()
             ->profile(\App\Filament\Pages\Auth\EditProfile::class, isSimple: false)
@@ -83,7 +84,10 @@ class SsoPanelProvider extends PanelProvider
                 // 'profile' => \Filament\Navigation\MenuItem::make()
                 //     ->label(fn () => auth()->user()->name)
                 //     ->icon('heroicon-m-user-circle'),
-            ])
+            ])->spa()
+            ->maxContentWidth(MaxWidth::SevenExtraLarge)
+            ->sidebarCollapsibleOnDesktop()
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->plugins([
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
                     ->gridColumns([
@@ -106,7 +110,7 @@ class SsoPanelProvider extends PanelProvider
                     ->formPanelPosition('right')
                     ->formPanelWidth('40%')
                     ->emptyPanelBackgroundImageOpacity('70%')
-                    ->emptyPanelBackgroundImageUrl('https://picsum.photos/seed/picsum/1260/750.webp/?blur=1'),
+                    ->emptyPanelBackgroundImageUrl('https://e0.pxfuel.com/wallpapers/744/516/desktop-wallpaper-digital-media-technology-on-cool-blue-technology.jpg'),
                 \Awcodes\LightSwitch\LightSwitchPlugin::make()
                     ->position(\Awcodes\LightSwitch\Enums\Alignment::BottomCenter)
                     ->enabledOn([
