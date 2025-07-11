@@ -11,8 +11,8 @@ class CompanyProfileSettingsTableSeeder extends Seeder
     public function run()
     {
         CompanyProfileSetting::create([
-            'setting_key' => 'nama_perusahaan',
-            'setting_value' => 'PT Edu Tech Indonesia'
+            'setting_key' => 'company_name',
+            'setting_value' => 'UEU Bootcamp'
         ]);
     }
 }
