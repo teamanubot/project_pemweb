@@ -1576,7 +1576,7 @@ section,
 }
 
 .pricing .section-title {
-  margin-bottom: 40px;
+  margin-bottom: 0px;
 }
 
 .pricing .pricing-item {
@@ -1591,7 +1591,7 @@ section,
 .pricing h3 {
   font-weight: 600;
   margin-bottom: 15px;
-  font-size: 20px;
+  font-size: 40px;
   text-align: center;
 }
 
@@ -1606,13 +1606,6 @@ section,
   justify-content: center;
   transition: 0.3s;
   transform-style: preserve-3d;
-}
-
-.pricing .icon i {
-  color: var(--background-color);
-  font-size: 28px;
-  transition: ease-in-out 0.3s;
-  line-height: 0;
 }
 
 .pricing .icon::before {
