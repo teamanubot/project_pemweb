@@ -9,19 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('courses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->integer('duration_months');
-            $table->integer('total_sessions');
-            $table->decimal('price', 10, 2);
-            $table->boolean('is_active')->default(true);
-            $table->timestamps();
-        });
-    }
+        public function up(): void
+        {
+            Schema::create('courses', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->text('description');
+                $table->integer('duration_months');
+                $table->integer('total_sessions');
+                $table->decimal('price', 10, 2);
+                $table->boolean('is_active')->default(true);
+                $table->timestamps();
+            });
+        }
 
     /**
      * Reverse the migrations.

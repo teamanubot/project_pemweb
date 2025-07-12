@@ -21,7 +21,7 @@ class BlogPostResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
 
     public static function form(Form $form): Form
-    {
+    {   
         return $form
             ->schema([
                 Forms\Components\TextInput::make('title')
@@ -30,7 +30,7 @@ class BlogPostResource extends Resource
                 Forms\Components\TextInput::make('slug')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('content')
+                Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\Select::make('author_id')

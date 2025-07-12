@@ -27,7 +27,7 @@ class CompanyProfileSettingResource extends Resource
                 Forms\Components\TextInput::make('setting_key')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('setting_value')
+                Forms\Components\RichEditor::make('setting_value')
                     ->required()
                     ->columnSpanFull(),
             ]);
@@ -38,6 +38,7 @@ class CompanyProfileSettingResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('setting_key')
+                    ->label('Key')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
