@@ -252,11 +252,12 @@
 
             if (isNaN(userAnswer) || userAnswer !== expected) {
                 const errorDiv = document.getElementById('captcha-error');
-                errorDiv.innerText = 'Jawaban salah. Soal diganti, silakan coba lagi.';
-                errorDiv.style.display = 'block';
 
                 // 🎯 GANTI soal baru jika salah
                 generateNewCaptcha();
+
+                errorDiv.innerText = 'Jawaban salah. Soal diganti, silakan coba lagi.';
+                errorDiv.style.display = 'block';
 
                 return false;
             }
