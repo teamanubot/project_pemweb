@@ -12,6 +12,8 @@ use Spatie\Permission\Models\Role;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
 use App\Models\PaymentTransaction;
+use App\Mail\InvoiceMidtrans;
+use Illuminate\Support\Facades\Mail;
 
 class MidtransController extends Controller
 {
@@ -62,6 +64,8 @@ class MidtransController extends Controller
     {
         $result = $request->all();
 
+        $midtransResponse = $request->midtrans_result ?? $result;
+
         $studentRole = Role::where('name', 'student')->where('guard_name', 'student')->first();
 
         $fullName = $request->nama_depan . ' ' . $request->nama_belakang;
@@ -110,7 +114,7 @@ class MidtransController extends Controller
         // Simpan transaksi pembayaran
         $result = $request->midtrans_result;
 
-        PaymentTransaction::create([
+        $paymentTransaction = PaymentTransaction::create([
             'course_enrollment_id'   => $enrollment->id,
             'midtrans_order_id'      => $result['order_id'] ?? null,
             'midtrans_transaction_id' => $result['transaction_id'] ?? null,
@@ -123,6 +127,14 @@ class MidtransController extends Controller
             'expiry_time'            => now()->addDays(1),
             'raw_response'           => json_encode($result),
         ]);
+
+        try {
+            Mail::to($student->email)->send(new InvoiceMidtrans($paymentTransaction, $student, $course));
+        } catch (\Exception $e) {
+            // Handle error jika pengiriman email gagal
+            // Anda bisa log errornya atau memberitahu admin
+            \Illuminate\Support\Facades\Log::error('Gagal mengirim invoice email: ' . $e->getMessage());
+        }
 
         return response()->json(['status' => 'success']);
     }
