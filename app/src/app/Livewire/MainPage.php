@@ -16,12 +16,14 @@ class MainPage extends Component
     $courseCount = Course::count();
     $departmentCount = Department::count();
     $quizCount = Quiz::count();
+    $courses = Course::where('is_active', true)->get();
 
     return view('livewire.main-page', [
         'branchCount' => $branchCount,
         'courseCount' => $courseCount,
         'departmentCount' => $departmentCount,
         'quizCount' => $quizCount,
+        'courses' => $courses,
     ]);
 }
 
