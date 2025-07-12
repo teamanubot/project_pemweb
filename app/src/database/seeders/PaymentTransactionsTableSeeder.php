@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\PaymentTransaction;
 use App\Models\CourseEnrollment;
@@ -11,18 +10,28 @@ class PaymentTransactionsTableSeeder extends Seeder
 {
     public function run()
     {
-        PaymentTransaction::create([
-            'course_enrollment_id' => CourseEnrollment::first()->id,
-            'midtrans_order_id' => 'MID-ORD-1234',
-            'midtrans_transaction_id' => 'MID-TRANS-5678',
-            'amount' => 1500000,
-            'currency' => 'IDR',
-            'payment_method' => 'bank_transfer',
-            'transaction_status' => 'settlement',
-            'transaction_time' => now(),
-            'settlement_time' => now(),
-            'expiry_time' => now()->addDays(1),
-            'raw_response' => json_encode(['status' => 'ok'])
-        ]);
+        $enrollments = CourseEnrollment::with('course')->get();
+
+        foreach ($enrollments as $index => $enrollment) {
+            $course = $enrollment->course;
+
+            if (!$course) {
+                continue; // Lewati jika tidak ada relasi course
+            }
+
+            PaymentTransaction::create([
+                'course_enrollment_id'     => $enrollment->id,
+                'midtrans_order_id'        => 'MID-ORD-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
+                'midtrans_transaction_id'  => 'MID-TRANS-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
+                'amount'                   => $course->price,
+                'currency'                 => 'IDR',
+                'payment_method'           => 'bank_transfer',
+                'transaction_status'       => 'settlement',
+                'transaction_time'         => now(),
+                'settlement_time'          => now(),
+                'expiry_time'              => now()->addDays(1),
+                'raw_response'             => json_encode(['status' => 'ok', 'course' => $course->name])
+            ]);
+        }
     }
 }

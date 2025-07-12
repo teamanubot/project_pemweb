@@ -35,8 +35,8 @@ Route::get('/submission-download/{filename}', SubmissionDownloadController::clas
 Route::get('/syllabus-download/{filename}', SyllabusDownloadController::class)
     ->name('syllabus.download');
 
-use App\Http\Controllers\MidtransDemoController;
+use App\Http\Controllers\MidtransController;
 
-Route::get('/demo', [MidtransDemoController::class, 'form'])->name('demo.form');
-Route::post('/demo/token', [MidtransDemoController::class, 'token'])->name('demo.token');
-
+Route::get('/register', [MidtransController::class, 'form'])->name('register.form');
+Route::post('/register/token', [MidtransController::class, 'token'])->name('register.token');
+Route::post('/payment/callback', [MidtransController::class, 'handleSuccess'])->name('register.callback');
