@@ -52,7 +52,8 @@
 
                             <div class="col-12">
                                 <label class="form-label">Alamat</label>
-                                <textarea class="form-control" wire:model.defer="address" rows="2" placeholder="Alamat lengkap"></textarea>
+                                <textarea class="form-control" wire:model.defer="address" rows="2"
+                                    placeholder="Alamat lengkap"></textarea>
                                 @error('address')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
@@ -72,16 +73,16 @@
                             </div>
                         </div>
 
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success px-5 py-2">
-                                Daftar & Bayar Sekarang
-                            </button>
-                        </div>
-                    </form>
+                        <button type="submit" class="btn-submit"
+                            style="padding: 8px 28px; color: white; background-color: #18d26e; border: 2px solid #18d26e; border-radius: 9px;">
+                            Daftar & Bayar Sekarang
+                        </button>
                 </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {{-- Snap.js Midtrans --}}
@@ -89,18 +90,18 @@
     data-client-key="{{ config('midtrans.client_key') }}"></script>
 
 <script>
-    window.addEventListener('open-midtrans-snap', function(event) {
+    window.addEventListener('open-midtrans-snap', function (event) {
         snap.pay(event.detail.token, {
-            onSuccess: function(result) {
+            onSuccess: function (result) {
                 Livewire.emit('paymentSuccess', result);
             },
-            onPending: function(result) {
+            onPending: function (result) {
                 alert("Transaksi masih pending.");
             },
-            onError: function(result) {
+            onError: function (result) {
                 alert("Pembayaran gagal.");
             },
-            onClose: function() {
+            onClose: function () {
                 alert("Popup ditutup tanpa menyelesaikan pembayaran.");
             }
         });
