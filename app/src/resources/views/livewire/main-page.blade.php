@@ -255,40 +255,41 @@
 
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
-                        <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1"
-                            class="purecounter"></span>
-                        <p>Clients</p>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ $branchCount }}"
+                            data-purecounter-duration="1" class="purecounter">
+                        </span>
+                        <p>Branch Offices</p>
                     </div>
-                </div><!-- End Stats Item -->
+                </div>
 
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
-                        <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1"
-                            class="purecounter"></span>
-                        <p>Projects</p>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ $courseCount }}"
+                            data-purecounter-duration="1" class="purecounter">
+                        </span>
+                        <p>Courses</p>
                     </div>
-                </div><!-- End Stats Item -->
+                </div>
 
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
-                        <span data-purecounter-start="0" data-purecounter-end="1453" data-purecounter-duration="1"
-                            class="purecounter"></span>
-                        <p>Hours Of Support</p>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ $departmentCount }}"
+                            data-purecounter-duration="1" class="purecounter">
+                        </span>
+                        <p>Departments</p>
                     </div>
-                </div><!-- End Stats Item -->
+                </div>
 
                 <div class="col-lg-3 col-md-6">
                     <div class="stats-item text-center w-100 h-100">
-                        <span data-purecounter-start="0" data-purecounter-end="32" data-purecounter-duration="1"
-                            class="purecounter"></span>
-                        <p>Workers</p>
+                        <span data-purecounter-start="0" data-purecounter-end="{{ $quizCount }}"
+                            data-purecounter-duration="1" class="purecounter">
+                        </span>
+                        <p>Quizzes</p>
                     </div>
-                </div><!-- End Stats Item -->
-
+                </div>
             </div>
-
         </div>
-
     </section><!-- /Stats Section -->
 
     <!-- Services Section -->
@@ -306,81 +307,71 @@
 
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="service-item d-flex position-relative h-100">
-                        <i class="bi bi-briefcase icon flex-shrink-0"></i>
+                        <i class="bi bi-cursor-fill icon flex-shrink-0"></i>
                         <div>
-                            <h4 class="title"><a class="stretched-link">Lorem Ipsum</a>
-                            </h4>
-                            <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                excepturi sint
-                                occaecati cupiditate non provident</p>
+                            <h4 class="title"><a class="stretched-link">Intensive Coding Class</a></h4>
+                            <p class="description">Program pembelajaran intensif untuk meningkatkan keterampilan coding
+                                mahasiswa melalui project-based learning dan bimbingan langsung dari mentor industri.
+                            </p>
                         </div>
                     </div>
-                </div><!-- End Service Item -->
+                </div>
 
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="service-item d-flex position-relative h-100">
-                        <i class="bi bi-card-checklist icon flex-shrink-0"></i>
+                        <i class="bi bi-person-video2 icon flex-shrink-0"></i>
                         <div>
-                            <h4 class="title"><a class="stretched-link">Dolor Sitema</a>
-                            </h4>
-                            <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                aliquip ex ea
-                                commodo consequat tarad limino ata</p>
+                            <h4 class="title"><a class="stretched-link">Mentoring & Coaching</a></h4>
+                            <p class="description">Setiap peserta mendapat pembimbing profesional yang membantu
+                                mengembangkan potensi akademik dan kesiapan karier di dunia digital.</p>
                         </div>
                     </div>
-                </div><!-- End Service Item -->
+                </div>
 
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="service-item d-flex position-relative h-100">
-                        <i class="bi bi-bar-chart icon flex-shrink-0"></i>
+                        <i class="bi bi-people icon flex-shrink-0"></i>
                         <div>
-                            <h4 class="title"><a class="stretched-link">Sed ut
-                                    perspiciatis</a></h4>
-                            <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse
-                                cillum dolore eu
-                                fugiat nulla pariatur</p>
+                            <h4 class="title"><a class="stretched-link">Kolaborasi Tim</a></h4>
+                            <p class="description">Bootcamp menekankan kerja tim dan kolaborasi lintas bidang melalui
+                                studi kasus dan hackathon, untuk membangun soft skill dan profesionalisme.</p>
                         </div>
                     </div>
-                </div><!-- End Service Item -->
+                </div>
 
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="400">
                     <div class="service-item d-flex position-relative h-100">
-                        <i class="bi bi-binoculars icon flex-shrink-0"></i>
+                        <i class="bi bi-building icon flex-shrink-0"></i>
                         <div>
-                            <h4 class="title"><a class="stretched-link">Magni
-                                    Dolores</a></h4>
-                            <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia
-                                deserunt mollit anim id est laborum</p>
+                            <h4 class="title"><a class="stretched-link">Link ke Dunia Industri</a></h4>
+                            <p class="description">UEU Bootcamp menjembatani mahasiswa dengan dunia kerja melalui
+                                program magang, studi lapangan, dan proyek dari perusahaan mitra.</p>
                         </div>
                     </div>
-                </div><!-- End Service Item -->
+                </div>
 
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="500">
                     <div class="service-item d-flex position-relative h-100">
-                        <i class="bi bi-brightness-high icon flex-shrink-0"></i>
+                        <i class="bi bi-lightbulb icon flex-shrink-0"></i>
                         <div>
-                            <h4 class="title"><a class="stretched-link">Nemo Enim</a>
-                            </h4>
-                            <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                blanditiis
-                                praesentium voluptatum deleniti atque</p>
+                            <h4 class="title"><a class="stretched-link">Pengembangan Inovasi</a></h4>
+                            <p class="description">Dukungan penuh untuk ide-ide kreatif mahasiswa melalui kompetisi
+                                inovasi dan akses ke inkubator startup internal kampus.</p>
                         </div>
                     </div>
-                </div><!-- End Service Item -->
+                </div>
 
                 <div class="col-md-6" data-aos="fade-up" data-aos-delay="600">
                     <div class="service-item d-flex position-relative h-100">
-                        <i class="bi bi-calendar4-week icon flex-shrink-0"></i>
+                        <i class="bi bi-award icon flex-shrink-0"></i>
                         <div>
-                            <h4 class="title"><a class="stretched-link">Eiusmod
-                                    Tempor</a></h4>
-                            <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam
-                                libero tempore, cum
-                                soluta nobis est eligendi</p>
+                            <h4 class="title"><a class="stretched-link">Sertifikasi Kompetensi</a></h4>
+                            <p class="description">Peserta Bootcamp mendapatkan sertifikat resmi yang diakui industri
+                                sebagai bukti kompetensi dan kesiapan kerja di bidang teknologi.</p>
                         </div>
                     </div>
-                </div><!-- End Service Item -->
+                </div>
+
 
             </div>
 
@@ -390,7 +381,6 @@
 
     <!-- Pricing Section -->
     <section id="pricing" class="pricing section">
-
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2>Pilih Paket</h2>
@@ -398,63 +388,38 @@
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row g-4 justify-content-center">
+                @foreach ($courses as $course)
+                    <div class="col-lg-4 col-md-6 {{ count($courses) === 1 ? 'mx-auto' : '' }}">
+                        <div class="pricing-item">
+                            <!-- Gambar -->
+                            <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
+                                style="width: 100%; height: 200px; object-fit: cover; margin-bottom: 30px; border-radius: 5px;">
 
-            <div class="row g-4">
+                            <!-- Nama Paket -->
+                            <h3 class="text-center">{{ $course->name }}</h3>
 
-                <div class="col-lg-4">
-                    <div class="pricing-item">
-                        <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
-                            style="width: 100%; margin-bottom: 30px; border-radius: 5px;">
-                        <h3>Free Plan</h3>
-                        {{-- <div class="icon">
-                            <i class="bi bi-box"></i>
-                        </div> --}}
-                        <h4><sup>Rp</sup>0<span> / bulan</span></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus corrupti eius maiores
-                            delectus dolor commodi labore incidunt explicabo, hic veritatis.
-                        </p>
-                        <div class="text-center"><a href="#" class="buy-btn">Beli Paket</a></div>
+                            <!-- Harga -->
+                            <h4 class="mb-1 text-center">
+                                <sup>Rp</sup>{{ number_format($course->price, 0, ',', '.') }}
+                            </h4>
+
+                            <!-- Durasi dan Sesi -->
+                            <div class="text-muted mb-3 text-center" style="font-size: 14px;">
+                                {{ $course->duration_months }} bulan &bull; {{ $course->total_sessions }} sesi
+                            </div>
+
+                            <!-- Deskripsi -->
+                            <p class="text-center">{{ Str::limit($course->description, 150) }}</p>
+
+                            <!-- Tombol -->
+                            <div class="text-center">
+                                <a href="{{ url('/register') }}" class="buy-btn">Beli Paket</a>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- End Pricing Item -->
-
-                <div class="col-lg-4">
-                    <div class="pricing-item">
-                        <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
-                            style="width: 100%; margin-bottom: 30px; border-radius: 5px;">
-                        <h3>Business Plan</h3>
-                        {{-- <div class="icon">
-                            <i class="bi bi-rocket"></i>
-                        </div> --}}
-
-                        <h4><sup>Rp</sup>29<span> / bulan</span></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus corrupti eius maiores
-                            delectus dolor commodi labore incidunt explicabo, hic veritatis.
-                        </p>
-                        <div class="text-center"><a href="#" class="buy-btn">Beli Paket</a></div>
-                    </div>
-                </div><!-- End Pricing Item -->
-
-                <div class="col-lg-4">
-                    <div class="pricing-item">
-                        <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
-                            style="width: 100%; margin-bottom: 30px; border-radius: 5px;">
-                        <h3>Developer Plan</h3>
-                        {{-- <div class="icon">
-                            <i class="bi bi-send"></i>
-                        </div> --}}
-                        <h4><sup>Rp</sup>49<span> / bulan</span></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus corrupti eius maiores
-                            delectus dolor commodi labore incidunt explicabo, hic veritatis.
-                        </p>
-                        <div class="text-center"><a href="#" class="buy-btn">Beli Paket</a></div>
-                    </div>
-                </div><!-- End Pricing Item -->
-
+                @endforeach
             </div>
-
         </div>
     </section><!-- /Pricing Section -->
 
