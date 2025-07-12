@@ -29,7 +29,9 @@
     <link href="{{ asset('front/assets/css/global.css') }}" rel="stylesheet">
     <style>
         body {
-            background-color: orange !important;
+            background-image: url('/front/assets/img/hero-carousel/hero-carousel-4.jpg');
+            background-size: cover;
+            background-position: center;
         }
     </style>
 </head>
@@ -131,7 +133,7 @@
         </div>
     </div>
 
-    <footer id="footer" class="footer dark-background">
+    <!-- <footer id="footer" class="footer dark-background">
         <div class="container footer-top">
             <div class="row gy-4" style="display: flex; justify-content: space-between;">
                 <div class="col-lg-4 col-md-6 footer-about">
@@ -170,7 +172,7 @@
                 Designed By UEUBootcamp With <i class="bi bi-heart-fill" style="color: green;"></i>
             </div>
         </div>
-    </footer>
+    </footer> -->
 
     <!-- Scripts -->
     <script src="{{ asset('front/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
