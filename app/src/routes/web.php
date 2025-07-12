@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\SubmissionDownloadController;
+use App\Http\Controllers\SyllabusDownloadController;
+use App\Livewire\RegisterForm;
 use App\Livewire\MainPage;
 use App\Livewire\BlogPage;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
+use App\Models\Submission;
+use Illuminate\Support\Facades\Storage;
 
 /* NOTE: Do Not Remove
 / Livewire asset handling if using sub folder in domain
@@ -24,3 +29,14 @@ Livewire::setScriptRoute(function ($handle) {
 
 Route::get('/',MainPage::class)->name('home');
 Route::get('/blog', BlogPage::class)->name('blog');
+Route::get('/register', RegisterForm::class)->name('register-form');
+
+Route::get('/submission-download/{filename}', SubmissionDownloadController::class)
+    ->name('submission.download');
+
+Route::get('/syllabus-download/{filename}', SyllabusDownloadController::class)
+    ->name('syllabus.download');
+
+Route::get('/payment/checkout/{token}', function ($token) {
+    return view('payment.checkout', compact('token'));
+})->name('payment.checkout');

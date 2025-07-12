@@ -7,11 +7,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Faker\Factory as Faker;
 
 class UsersTableSeeder extends Seeder
 {
     public function run(): void
     {
+        $faker = Faker::create();
+
         // Admin
         $super_admin = User::firstOrCreate(
             ['email' => 'admin@bootcamp.com'],
@@ -30,30 +33,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Admin Management',
                 'teaching_status'   => 'inactive',
-                
-                'remember_token' => Str::random(10),
-            ]
-        );
 
-        // Instructor (Teacher)
-        $instructor = User::firstOrCreate(
-            ['email' => 'instructor@bootcamp.com'],
-            [
-                'name' => 'Bootcamp Instructor',
-                'avatar_url'        => null,
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
-                'phone_number' => '081212121212',
-                'address' => 'Bandung',
-                'nik' => '3276010101010002',
-                'job_title' => 'Instructor',
-                'department_id' => 1,
-                'employment_status' => 'active',
-                'onboarding_date' => now()->toDateString(),
-                'expertise_area' => 'Web Development',
-                'teaching_status' => 'active',
-                
                 'remember_token' => Str::random(10),
             ]
         );
@@ -76,7 +56,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Web Development',
                 'teaching_status' => 'inactive',
-                
+
                 'remember_token' => Str::random(10),
             ]
         );
@@ -99,7 +79,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Human Resource Management',
                 'teaching_status' => 'inactive',
-                
+
             ]
         );
 
@@ -121,7 +101,7 @@ class UsersTableSeeder extends Seeder
                 'onboarding_date' => now()->toDateString(),
                 'expertise_area' => 'Learning Management',
                 'teaching_status' => 'inactive',
-                
+
             ]
         );
 
@@ -167,28 +147,80 @@ class UsersTableSeeder extends Seeder
             ]
         );
 
+        // Instructor (Teacher)
+        $instructorRole = Role::where('name', 'teacher')->where('guard_name', 'instructor')->first();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $firstName = $faker->firstName;
+            $lastName = $faker->lastName;
+
+            // Nama untuk tampilan, ditambah gelar
+            $name = "$firstName $lastName, S.Kom., M.Kom";
+
+            // Email tetap rapi, tidak ada gelar
+            $username = Str::slug("$firstName $lastName", '.');
+            $email = $username . '@instructor.bootcamp.com';
+
+            $instructor = User::firstOrCreate(
+                ['email' => $email],
+                [
+                    'name'              => $name,
+                    'avatar_url'        => null,
+                    'email_verified_at' => now(),
+                    'password'          => Hash::make('password'), // default password
+                    'remember_token'    => Str::random(10),
+                    'phone_number'      => $faker->phoneNumber,
+                    'address'           => $faker->address,
+                    'nik'               => $faker->unique()->numerify('327601##########'),
+                    'job_title'         => 'Teacher',
+                    'department_id'     => null,
+                    'employment_status' => null,
+                    'onboarding_date'   => now()->toDateString(),
+                    'expertise_area'    => 'Web Development',
+                    'teaching_status'   => null,
+                ]
+            );
+
+            if ($instructorRole) {
+                $instructor->roles()->syncWithoutDetaching([$instructorRole->id]);
+            }
+        }
 
         // Student
-        $student = User::firstOrCreate(
-            ['email' => 'student@bootcamp.com'],
-            [
-                'name' => 'Bootcamp Student',
-                'avatar_url' => null,
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
-                'phone_number' => '081313131313',
-                'address' => 'Jakarta',
-                'nik' => '3276010101010003',
-                'job_title' => 'Student',
-                'department_id' => null,
-                'employment_status' => null,
-                'onboarding_date' => now()->toDateString(),
-                'expertise_area' => 'Web Development',
-                'teaching_status' => null,
-                'remember_token' => Str::random(10),
-            ]
-        );
+        $studentRole = Role::where('name', 'student')->where('guard_name', 'student')->first();
+
+        for ($i = 1; $i <= 10; $i++) {
+            $firstName = $faker->firstName;
+            $lastName = $faker->lastName;
+            $name = "$firstName $lastName";
+
+            $username = Str::slug($name, '.');
+            $email = $username . '@student.bootcamp.com';
+
+            $student = User::firstOrCreate(
+                ['email' => $email],
+                [
+                    'name'              => $name,
+                    'avatar_url'        => null,
+                    'email_verified_at' => now(),
+                    'password'          => Hash::make('password'), // default password
+                    'remember_token'    => Str::random(10),
+                    'phone_number'      => $faker->phoneNumber,
+                    'address'           => $faker->address,
+                    'nik'               => $faker->unique()->numerify('327601##########'),
+                    'job_title'         => 'Student',
+                    'department_id'     => null,
+                    'employment_status' => null,
+                    'onboarding_date'   => now()->toDateString(),
+                    'expertise_area'    => 'Web Development',
+                    'teaching_status'   => null,
+                ]
+            );
+
+            if ($studentRole) {
+                $student->roles()->syncWithoutDetaching([$studentRole->id]);
+            }
+        }
 
         $super_adminRole = Role::where('name', 'super_admin')->where('guard_name', 'admin')->first();
         if ($super_adminRole) {
@@ -218,16 +250,6 @@ class UsersTableSeeder extends Seeder
         $adminAkademikRole = Role::where('name', 'admin_akademik')->where('guard_name', 'admin')->first();
         if ($adminAkademikRole) {
             $adminAkademik->roles()->attach($adminAkademikRole); // assign role langsung
-        }
-
-        $instructorRole = Role::where('name', 'teacher')->where('guard_name', 'instructor')->first();
-        if ($instructorRole) {
-            $instructor->roles()->attach($instructorRole); // assign role langsung
-        }
-
-        $studentRole = Role::where('name', 'student')->where('guard_name', 'student')->first();
-        if ($studentRole) {
-            $student->roles()->attach($studentRole); // assign role langsung
         }
     }
 }
