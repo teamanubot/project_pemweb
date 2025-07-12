@@ -6,11 +6,10 @@
             style="background-image: url(front/assets/img/page-title-bg.jpg);">
             <div class="container position-relative">
                 <h1>Blog</h1>
-                <p>Esse dolorum voluptatum ullam est sint nemo et est ipsa porro placeat quibusdam quia assumenda
-                    numquam molestias.</p>
+                <p>Selamat datang di blog UEU Bootcamp! Temukan berbagai artikel, tips, dan inspirasi seputar dunia teknologi, pemrograman, dan pengalaman seru selama mengikuti bootcamp di Universitas Esa Unggul.</p>
                 <nav class="breadcrumbs">
                     <ol>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="{{ url('/') }}">Home</a></li>
                         <li class="current">Blog</li>
                     </ol>
                 </nav>
@@ -246,7 +245,7 @@
         </section><!-- /Blog Posts Section -->
 
         <!-- Blog Pagination Section -->
-        <section id="blog-pagination" class="blog-pagination section">
+        <!-- <section id="blog-pagination" class="blog-pagination section">
 
             <div class="container">
                 <div class="d-flex justify-content-center">
@@ -263,7 +262,7 @@
                 </div>
             </div>
 
-        </section><!-- /Blog Pagination Section -->
+        </section>/Blog Pagination Section -->
 
     </main>
 </main>
