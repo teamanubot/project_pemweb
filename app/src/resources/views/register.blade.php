@@ -233,13 +233,17 @@
         let captchaA = 0;
         let captchaB = 0;
 
-        document.getElementById('verify-button').addEventListener('click', function() {
+        function generateNewCaptcha() {
             captchaA = Math.floor(Math.random() * 10) + 1;
             captchaB = Math.floor(Math.random() * 10) + 1;
 
             document.getElementById('captcha-question').innerText = `What is ${captchaA} + ${captchaB}?`;
-            document.getElementById('captcha-error').style.display = 'none';
             document.getElementById('captcha').value = '';
+            document.getElementById('captcha-error').style.display = 'none';
+        }
+
+        document.getElementById('verify-button').addEventListener('click', function() {
+            generateNewCaptcha();
         });
 
         function isCaptchaCorrect() {
@@ -248,8 +252,12 @@
 
             if (isNaN(userAnswer) || userAnswer !== expected) {
                 const errorDiv = document.getElementById('captcha-error');
-                errorDiv.innerText = 'Jawaban salah. Silakan coba lagi.';
+                errorDiv.innerText = 'Jawaban salah. Soal diganti, silakan coba lagi.';
                 errorDiv.style.display = 'block';
+
+                // 🎯 GANTI soal baru jika salah
+                generateNewCaptcha();
+
                 return false;
             }
 
@@ -257,7 +265,6 @@
             return true;
         }
     </script>
-
 
     <script>
         const checkbox = document.getElementById('send_invoice_checkbox');
