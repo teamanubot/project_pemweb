@@ -33,6 +33,13 @@
             background-size: cover;
             background-position: center;
         }
+
+        .custom-eye {
+            top: 10%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -85,15 +92,21 @@
                                 </div>
                                 <div class="col-md-6 position-relative">
                                     <label>Password</label>
-                                    <input type="password" id="password" class="form-control" required>
-                                    <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
-                                        style="cursor:pointer;">👁️</span>
+                                    <input type="password" id="password" class="form-control pe-5" required>
+                                    <span class="toggle-password position-absolute custom-eye" data-target="password">
+                                        <img src="/front/images/eye-open.svg" alt="Lihat password" width="20" />
+                                    </span>
                                 </div>
+
                                 <div class="col-md-6 position-relative">
                                     <label>Konfirmasi Password</label>
-                                    <input type="password" id="password_confirmation" class="form-control" required>
-                                    <span class="toggle-password position-absolute top-50 end-0 translate-middle-y me-3"
-                                        style="cursor:pointer;">👁️</span>
+                                    <input type="password" id="password_confirmation" class="form-control pe-5"
+                                        required>
+                                    <span class="toggle-password position-absolute custom-eye" data-target="password_confirmation">
+                                        <img src="/front/images/eye-open.svg" alt="Lihat password" width="20" />
+                                    </span>
+                                    <small id="password-match-error" class="text-danger d-none mt-1">Password tidak
+                                        sesuai</small>
                                 </div>
                                 <div class="col-md-6">
                                     <label>No. HP</label>
@@ -188,16 +201,34 @@
     <script>
         document.querySelectorAll('.toggle-password').forEach(toggle => {
             toggle.addEventListener('click', function() {
-                const input = this.previousElementSibling;
-                if (input.type === "password") {
-                    input.type = "text";
-                    this.textContent = "🙈";
+                const targetId = this.dataset.target;
+                const input = document.getElementById(targetId);
+                const img = this.querySelector('img');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    img.src = '/front/images/eye-striked.svg';
+                    img.alt = 'Sembunyikan password';
                 } else {
-                    input.type = "password";
-                    this.textContent = "👁️";
+                    input.type = 'password';
+                    img.src = '/front/images/eye-open.svg';
+                    img.alt = 'Lihat password';
                 }
             });
         });
+
+        document.getElementById('password_confirmation').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirm = this.value;
+            const error = document.getElementById('password-match-error');
+
+            if (confirm && confirm !== password) {
+                error.classList.remove('d-none');
+            } else {
+                error.classList.add('d-none');
+            }
+        });
+
 
         function generateEmail() {
             const first = document.getElementById('nama_depan').value.trim();
@@ -280,7 +311,8 @@
                                     .then(res => res.json())
                                     .then(data => {
                                         alert(
-                                            'Terima kasih telah mendaftar! Pembayaran berhasil.');
+                                            'Terima kasih telah mendaftar! Pembayaran berhasil.'
+                                        );
                                     });
                             },
                             onError: function(result) {
