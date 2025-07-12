@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\KirimEmailController;
 use App\Http\Controllers\SubmissionDownloadController;
 use App\Http\Controllers\SyllabusDownloadController;
 use App\Livewire\MainPage;

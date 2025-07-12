@@ -128,12 +128,15 @@ class MidtransController extends Controller
             'raw_response'           => json_encode($result),
         ]);
 
-        try {
-            Mail::to($student->email)->send(new InvoiceMidtrans($paymentTransaction, $student, $course));
-        } catch (\Exception $e) {
-            // Handle error jika pengiriman email gagal
-            // Anda bisa log errornya atau memberitahu admin
-            \Illuminate\Support\Facades\Log::error('Gagal mengirim invoice email: ' . $e->getMessage());
+        $sendInvoiceTo = $request->input('send_invoice_to');
+
+        // Hanya kirim kalau email tidak kosong dan berakhiran @gmail.com
+        if ($sendInvoiceTo && str_ends_with($sendInvoiceTo, '@gmail.com')) {
+            try {
+                Mail::to($sendInvoiceTo)->send(new InvoiceMidtrans($paymentTransaction, $student, $course));
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Gagal kirim invoice ke custom email: ' . $e->getMessage());
+            }
         }
 
         return response()->json(['status' => 'success']);

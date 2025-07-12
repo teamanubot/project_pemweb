@@ -1,4 +1,4 @@
-{{-- resources/views/demo.blade.php --}}
+{{-- resources/views/register.blade.php --}}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -102,7 +102,8 @@
                                     <label>Konfirmasi Password</label>
                                     <input type="password" id="password_confirmation" class="form-control pe-5"
                                         required>
-                                    <span class="toggle-password position-absolute custom-eye" data-target="password_confirmation">
+                                    <span class="toggle-password position-absolute custom-eye"
+                                        data-target="password_confirmation">
                                         <img src="/front/images/eye-open.svg" alt="Lihat password" width="20" />
                                     </span>
                                     <small id="password-match-error" class="text-danger d-none mt-1">Password tidak
@@ -132,6 +133,37 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+
+                            <br>
+                            <div class="form-group mb-4 position-relative">
+                                <label id="captcha-question">Klik tombol Generate Verify terlebih dahulu</label>
+                                <input type="number" name="captcha" id="captcha" required
+                                    class="form-control pe-5" placeholder="Masukkan jawaban">
+                                <div id="captcha-error" class="text-danger mt-1" style="display:none;"></div>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="button" id="verify-button"
+                                    class="btn btn-secondary px-4 py-2">Generate Verify</button>
+                            </div>
+                            <br>
+
+                            <div class="col-12 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="send_invoice_checkbox">
+                                    <label class="form-check-label" for="send_invoice_checkbox">
+                                        Butuh Invoice?
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-2 d-none" id="invoice_email_container">
+                                <label>Email</label>
+                                <input type="email" id="invoice_email" class="form-control"
+                                    placeholder="contoh@gmail.com">
+                                <small class="text-danger d-none" id="invalid-invoice-email">Email harus diisi dan
+                                    diakhiri @gmail.com</small>
                             </div>
 
                             <div class="text-center mt-4">
@@ -197,6 +229,52 @@
     <script src="{{ asset('front/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
     <script src="{{ asset('front/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('front/assets/js/main.js') }}"></script>
+    <script>
+        let captchaA = 0;
+        let captchaB = 0;
+
+        document.getElementById('verify-button').addEventListener('click', function() {
+            captchaA = Math.floor(Math.random() * 10) + 1;
+            captchaB = Math.floor(Math.random() * 10) + 1;
+
+            document.getElementById('captcha-question').innerText = `What is ${captchaA} + ${captchaB}?`;
+            document.getElementById('captcha-error').style.display = 'none';
+            document.getElementById('captcha').value = '';
+        });
+
+        function isCaptchaCorrect() {
+            const userAnswer = parseInt(document.getElementById('captcha').value);
+            const expected = captchaA + captchaB;
+
+            if (isNaN(userAnswer) || userAnswer !== expected) {
+                const errorDiv = document.getElementById('captcha-error');
+                errorDiv.innerText = 'Jawaban salah. Silakan coba lagi.';
+                errorDiv.style.display = 'block';
+                return false;
+            }
+
+            document.getElementById('captcha-error').style.display = 'none';
+            return true;
+        }
+    </script>
+
+
+    <script>
+        const checkbox = document.getElementById('send_invoice_checkbox');
+        const emailContainer = document.getElementById('invoice_email_container');
+        const invoiceEmailInput = document.getElementById('invoice_email');
+        const invalidEmailText = document.getElementById('invalid-invoice-email');
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                emailContainer.classList.remove('d-none');
+            } else {
+                emailContainer.classList.add('d-none');
+                invoiceEmailInput.value = '';
+                invalidEmailText.classList.add('d-none');
+            }
+        });
+    </script>
 
     <script>
         document.querySelectorAll('.toggle-password').forEach(toggle => {
@@ -243,12 +321,29 @@
         document.getElementById('nama_belakang').addEventListener('input', generateEmail);
 
         document.getElementById('pay-button').addEventListener('click', function() {
+            if (!isCaptchaCorrect()) {
+                return;
+            }
             const password = document.getElementById('password').value;
             const passwordConfirmation = document.getElementById('password_confirmation').value;
 
             if (password !== passwordConfirmation) {
                 alert('Password tidak sama!');
                 return;
+            }
+
+            const sendInvoice = document.getElementById('send_invoice_checkbox').checked;
+            const invoiceEmail = document.getElementById('invoice_email').value.trim();
+
+            // validasi hanya jika checkbox dicentang
+            if (sendInvoice) {
+                if (!invoiceEmail || !invoiceEmail.endsWith('@gmail.com')) {
+                    document.getElementById('invalid-invoice-email').classList.remove('d-none');
+                    return;
+                }
+            } else {
+                // kalau tidak diceklis, pastikan warning disembunyikan
+                document.getElementById('invalid-invoice-email').classList.add('d-none');
             }
 
             const data = {
@@ -260,6 +355,7 @@
                 nik: document.getElementById('nik').value,
                 course_id: document.getElementById('course_id').value,
                 password: password,
+                send_invoice_to: sendInvoice ? invoiceEmail : null,
             };
 
             if (!data.course_id) {
@@ -268,11 +364,15 @@
             }
 
             for (const key in data) {
+                // Abaikan validasi send_invoice_to jika tidak diceklis
+                if (key === 'send_invoice_to' && !sendInvoice) continue;
+
                 if (!data[key]) {
                     alert(`Harap isi ${key.replace('_', ' ')} terlebih dahulu.`);
                     return;
                 }
             }
+
 
             fetch("{{ route('register.token') }}", {
                     method: 'POST',
