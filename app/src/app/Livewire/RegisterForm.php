@@ -2,33 +2,35 @@
 
 namespace App\Livewire;
 
+namespace App\Livewire;
+
 use Livewire\Component;
+use App\Models\User;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
 use App\Models\PaymentTransaction;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Midtrans\Snap;
-use Midtrans\Config as MidtransConfig;
+use Midtrans\Config;
 
 class RegisterForm extends Component
 {
-    public $name, $email, $phone_number, $address, $nik, $job_title, $course_id;
+    public $name, $email, $phone_number, $address, $nik, $course_id;
+    public $courses;
+
+    protected $listeners = ['paymentSuccess' => 'handlePaymentSuccess'];
 
     public function mount()
     {
-        MidtransConfig::$serverKey = config('midtrans.server_key');
-        MidtransConfig::$isProduction = false;
-        MidtransConfig::$isSanitized = true;
-        MidtransConfig::$is3ds = true;
+        $this->courses = Course::where('is_active', true)->get();
     }
 
     public function register()
     {
         $this->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'phone_number' => 'required',
             'address' => 'required',
             'nik' => 'required',
@@ -37,63 +39,95 @@ class RegisterForm extends Component
 
         $course = Course::findOrFail($this->course_id);
 
-        $enrollment = CourseEnrollment::create([
-            'course_id' => $course->id,
-            'enrollment_date' => now(),
-            'payment_status' => 'pending',
-            'is_completed' => false,
-        ]);
+        Config::$serverKey = config('midtrans.server_key');
+        Config::$isProduction = config('midtrans.is_production');
+        Config::$isSanitized = true;
+        Config::$is3ds = true;
 
-        $orderId = 'ORDER-' . strtoupper(Str::random(10));
-        $amount = $course->price ?? 100000;
+        $orderId = 'ORD-' . strtoupper(Str::random(10));
 
         $params = [
             'transaction_details' => [
                 'order_id' => $orderId,
-                'gross_amount' => $amount,
+                'gross_amount' => $course->price,
             ],
             'customer_details' => [
                 'first_name' => $this->name,
                 'email' => $this->email,
                 'phone' => $this->phone_number,
             ],
+            'item_details' => [
+                [
+                    'id' => $course->id,
+                    'price' => $course->price,
+                    'quantity' => 1,
+                    'name' => $course->name,
+                ]
+            ]
         ];
 
         $snapToken = Snap::getSnapToken($params);
 
-        PaymentTransaction::create([
-            'course_enrollment_id' => $enrollment->id,
-            'midtrans_order_id' => $orderId,
-            'amount' => $amount,
-            'payment_method' => 'midtrans',
-            'transaction_status' => 'pending',
-            'transaction_time' => now(),
-            'expiry_time' => now()->addHours(1),
-        ]);
+        session(['register_data' => [
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
+            'address' => $this->address,
+            'nik' => $this->nik,
+            'course_id' => $this->course_id,
+            'order_id' => $orderId,
+            'amount' => $course->price,
+        ]]);
 
-        // Simpan data user ke session untuk diproses setelah pembayaran
-        session([
-            'enrollment_id' => $enrollment->id,
-            'user_data' => [
-                'name'         => $this->name,
-                'email'        => $this->email,
-                'phone_number' => $this->phone_number,
-                'address'      => $this->address,
-                'nik'          => $this->nik,
-                'job_title'    => 'student', // ✅ di-set otomatis
-            ],
-        ]);
-        // Dispatch event to open Midtrans Snap payment
-        $this->dispatchBrowserEvent('open-midtrans-snap', [
-            'token' => $snapToken,
-        ]);
+        $this->dispatchBrowserEvent('open-midtrans-snap', ['token' => $snapToken]);
     }
 
+    public function handlePaymentSuccess($result)
+    {
+        $data = session('register_data');
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make('password'),
+            'phone_number' => $data['phone_number'],
+            'address' => $data['address'],
+            'nik' => $data['nik'],
+            'job_title' => 'Student',
+            'department_id' => null,
+            'employment_status' => null,
+            'onboarding_date' => now(),
+            'expertise_area' => 'Web Development',
+        ]);
+        $user->assignRole('student');
+
+        $enrollment = CourseEnrollment::create([
+            'user_id' => $user->id,
+            'course_id' => $data['course_id'],
+            'enrollment_date' => now(),
+            'payment_status' => 'paid',
+            'access_granted_at' => now(),
+            'is_completed' => false,
+        ]);
+
+        PaymentTransaction::create([
+            'course_enrollment_id' => $enrollment->id,
+            'midtrans_order_id' => $data['order_id'],
+            'midtrans_transaction_id' => $result['transaction_id'],
+            'amount' => $data['amount'],
+            'currency' => 'IDR',
+            'payment_method' => $result['payment_type'],
+            'transaction_status' => $result['transaction_status'],
+            'transaction_time' => now(),
+            'settlement_time' => now(),
+            'expiry_time' => now()->addDay(),
+            'raw_response' => json_encode($result),
+        ]);
+    }
 
     public function render()
     {
-        return view('livewire.register-form', [
-            'courses' => \App\Models\Course::where('is_active', true)->get(),
-        ]);
+        return view('livewire.register-form');
     }
 }
+

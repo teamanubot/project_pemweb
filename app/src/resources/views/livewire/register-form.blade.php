@@ -7,7 +7,6 @@
 <div class="container mt-5 pt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-
             <div class="card border-0 shadow" style="background-color: #f8f9fa; border-radius: 12px;">
                 <div class="card-body p-5">
                     <h3 class="mb-4 text-center fw-bold">Formulir Pendaftaran</h3>
@@ -79,38 +78,31 @@
                             </button>
                         </div>
                     </form>
-                    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-                        data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
-
-                    <script>
-                        window.addEventListener('open-midtrans-snap', function(event) {
-                            const snapToken = event.detail.token;
-
-                            snap.pay(snapToken, {
-                                onSuccess: function(result) {
-                                    alert("Pembayaran berhasil!");
-                                    console.log(result);
-                                    // TODO: redirect ke halaman sukses jika mau
-                                },
-                                onPending: function(result) {
-                                    alert("Transaksi belum dibayar.");
-                                    console.log(result);
-                                },
-                                onError: function(result) {
-                                    alert("Pembayaran gagal.");
-                                    console.error(result);
-                                },
-                                onClose: function() {
-                                    alert("Popup ditutup tanpa menyelesaikan pembayaran.");
-                                }
-                            });
-                        });
-                    </script>
-
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+
+{{-- Snap.js Midtrans --}}
+<script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+    data-client-key="{{ config('midtrans.client_key') }}"></script>
+
+<script>
+    window.addEventListener('open-midtrans-snap', function(event) {
+        snap.pay(event.detail.token, {
+            onSuccess: function(result) {
+                Livewire.emit('paymentSuccess', result);
+            },
+            onPending: function(result) {
+                alert("Transaksi masih pending.");
+            },
+            onError: function(result) {
+                alert("Pembayaran gagal.");
+            },
+            onClose: function() {
+                alert("Popup ditutup tanpa menyelesaikan pembayaran.");
+            }
+        });
+    });
+</script>

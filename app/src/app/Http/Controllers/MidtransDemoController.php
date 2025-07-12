@@ -6,29 +6,34 @@ use Illuminate\Http\Request;
 use Midtrans\Snap;
 use Midtrans\Config;
 
-class MidtransController extends Controller
+class MidtransDemoController extends Controller
 {
-    public function getSnapToken(Request $request)
+    public function form()
     {
-        // Konfigurasi Midtrans
+        return view('demo');
+    }
+
+    public function token(Request $request)
+    {
         Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
+        Config::$isProduction = false;
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        // Buat parameter transaksi
+        $orderId = 'DEMO-' . uniqid();
+
         $params = [
             'transaction_details' => [
-                'order_id' => uniqid(),
-                'gross_amount' => $request->amount, // misal 100000
+                'order_id' => $orderId,
+                'gross_amount' => 10000,
             ],
             'customer_details' => [
-                'first_name' => $request->name,
-                'email' => $request->email,
-            ],
+                'first_name' => 'Demo',
+                'email' => 'demo@example.com',
+                'phone' => '08123456789',
+            ]
         ];
 
-        // Dapatkan Snap Token
         $snapToken = Snap::getSnapToken($params);
 
         return response()->json(['token' => $snapToken]);
