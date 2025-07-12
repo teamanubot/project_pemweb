@@ -381,7 +381,6 @@
 
     <!-- Pricing Section -->
     <section id="pricing" class="pricing section">
-
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
             <h2>Pilih Paket</h2>
@@ -389,63 +388,38 @@
         </div><!-- End Section Title -->
 
         <div class="container" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row g-4 justify-content-center">
+                @foreach ($courses as $course)
+                    <div class="col-lg-4 col-md-6 {{ count($courses) === 1 ? 'mx-auto' : '' }}">
+                        <div class="pricing-item">
+                            <!-- Gambar -->
+                            <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
+                                style="width: 100%; height: 200px; object-fit: cover; margin-bottom: 30px; border-radius: 5px;">
 
-            <div class="row g-4">
+                            <!-- Nama Paket -->
+                            <h3 class="text-center">{{ $course->name }}</h3>
 
-                <div class="col-lg-4">
-                    <div class="pricing-item">
-                        <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
-                            style="width: 100%; margin-bottom: 30px; border-radius: 5px;">
-                        <h3>Free Plan</h3>
-                        {{-- <div class="icon">
-                            <i class="bi bi-box"></i>
-                        </div> --}}
-                        <h4><sup>Rp</sup>0<span> / bulan</span></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus corrupti eius maiores
-                            delectus dolor commodi labore incidunt explicabo, hic veritatis.
-                        </p>
-                        <div class="text-center"><a href="#" class="buy-btn">Beli Paket</a></div>
+                            <!-- Harga -->
+                            <h4 class="mb-1 text-center">
+                                <sup>Rp</sup>{{ number_format($course->price, 0, ',', '.') }}
+                            </h4>
+
+                            <!-- Durasi dan Sesi -->
+                            <div class="text-muted mb-3 text-center" style="font-size: 14px;">
+                                {{ $course->duration_months }} bulan &bull; {{ $course->total_sessions }} sesi
+                            </div>
+
+                            <!-- Deskripsi -->
+                            <p class="text-center">{{ Str::limit($course->description, 150) }}</p>
+
+                            <!-- Tombol -->
+                            <div class="text-center">
+                                <a href="{{ url('/register') }}" class="buy-btn">Beli Paket</a>
+                            </div>
+                        </div>
                     </div>
-                </div><!-- End Pricing Item -->
-
-                <div class="col-lg-4">
-                    <div class="pricing-item">
-                        <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
-                            style="width: 100%; margin-bottom: 30px; border-radius: 5px;">
-                        <h3>Business Plan</h3>
-                        {{-- <div class="icon">
-                            <i class="bi bi-rocket"></i>
-                        </div> --}}
-
-                        <h4><sup>Rp</sup>29<span> / bulan</span></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus corrupti eius maiores
-                            delectus dolor commodi labore incidunt explicabo, hic veritatis.
-                        </p>
-                        <div class="text-center"><a href="#" class="buy-btn">Beli Paket</a></div>
-                    </div>
-                </div><!-- End Pricing Item -->
-
-                <div class="col-lg-4">
-                    <div class="pricing-item">
-                        <img src="{{ asset('front/assets/img/hero-carousel/Hero-Pics-1.jpg') }}" alt=""
-                            style="width: 100%; margin-bottom: 30px; border-radius: 5px;">
-                        <h3>Developer Plan</h3>
-                        {{-- <div class="icon">
-                            <i class="bi bi-send"></i>
-                        </div> --}}
-                        <h4><sup>Rp</sup>49<span> / bulan</span></h4>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus corrupti eius maiores
-                            delectus dolor commodi labore incidunt explicabo, hic veritatis.
-                        </p>
-                        <div class="text-center"><a href="#" class="buy-btn">Beli Paket</a></div>
-                    </div>
-                </div><!-- End Pricing Item -->
-
+                @endforeach
             </div>
-
         </div>
     </section><!-- /Pricing Section -->
 
