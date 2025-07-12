@@ -24,7 +24,7 @@
                 <li><a href="{{ url('/#contact') }}">Contact</a></li>
                 <li><a href="{{ url('/blog') }}">Blog</a></li>
                 <a href="{{ url('/sso') }}" class="login-btn" style="padding: 10px 30px;">Masuk</a>&nbsp;|&nbsp;
-                <a href="{{ url('/register') }}" class="login-btn" style="padding: 10px 30px; background-color: blue;">Daftar</a>
+                <a href="{{ url('/register') }}" class="regist-btn" style="padding: 8px 28px; border: 2px solid #18d26e; border-radius: 9px;">Daftar</a>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
