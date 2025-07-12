@@ -16,9 +16,4 @@
 
 <!-- Main JS File -->
 <script src="{{ asset('front/assets/js/main.js') }}"></script>
-<script>
-    window.addEventListener('redirect-to-payment', event => {
-        window.location.href = event.detail.url;
-    });
-</script>
 @livewireScripts

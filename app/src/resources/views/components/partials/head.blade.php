@@ -27,6 +27,4 @@
     <link href="{{ asset('front/assets/css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('front/assets/css/global.css') }}">
     @livewireStyles
-    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
-        data-client-key="{{ config('midtrans.client_key') }}"></script>
 </head>
