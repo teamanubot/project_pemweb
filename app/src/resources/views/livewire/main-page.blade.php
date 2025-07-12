@@ -113,8 +113,8 @@
                         <p class="description">Materi pelatihan disusun berdasarkan kebutuhan industri terbaru agar
                             peserta siap
                             terjun ke dunia kerja.</p>
-                        <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i
-                                class="bi bi-arrow-right"></i></a>
+                        <!-- <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i
+                                class="bi bi-arrow-right"></i></a> -->
                     </div>
                 </div>
                 <!-- End Service Item -->
@@ -126,8 +126,8 @@
                         <p class="description">Dipandu oleh mentor profesional dan praktisi di bidang teknologi
                             untuk memastikan
                             proses belajar optimal.</p>
-                        <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i
-                                class="bi bi-arrow-right"></i></a>
+                        <!-- <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i
+                                class="bi bi-arrow-right"></i></a> -->
                     </div>
                 </div>
                 <!-- End Service Item -->
@@ -139,8 +139,8 @@
                         <p class="description">Peserta yang lulus akan mendapatkan sertifikat resmi yang diakui oleh
                             kampus dan
                             mitra industri.</p>
-                        <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i
-                                class="bi bi-arrow-right"></i></a>
+                        <!-- <a href="service-details.html" class="readmore stretched-link"><span>Learn More</span><i
+                                class="bi bi-arrow-right"></i></a> -->
                     </div>
                 </div>
                 <!-- End Service Item -->
@@ -237,7 +237,7 @@
                         <p>Daftar sekarang sebelum kehabisan kelas terbatas kami, latih keahlianmu untuk melangkah ke
                             jenjang
                             karir.</p>
-                        <a class="cta-btn" href="{{ url('/sso') }}">Daftar Sekarang!</a>
+                        <a class="cta-btn" href="{{ url('/register') }}">Daftar Sekarang!</a>
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@
 
 
     <!-- Contact Section -->
-    <section id="contact" class="contact section">
+    <section id="contact" class="contact section lg-5 mb-5">
 
         <!-- Section Title -->
         <div class="container section-title" data-aos="fade-up">
@@ -504,7 +504,7 @@
 
             </div>
 
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
+            <!-- <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up"
                 data-aos-delay="300">
                 <div class="row gy-4">
 
@@ -533,7 +533,7 @@
                     </div>
 
                 </div>
-            </form><!-- End Contact Form -->
+            </form>End Contact Form -->
 
         </div>
 
