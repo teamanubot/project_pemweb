@@ -4,41 +4,46 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Log;
 
-class WhatsAppController extends Controller
+class WhatsAppOtpController extends Controller
 {
-    public function sendWhatsAppMessage(Request $request)
+    public function send(Request $request)
     {
-        $twilioSid = env('TWILIO_SID');
-        $twilioToken = env('TWILIO_AUTH_TOKEN');
-        $twilioWhatsAppNumber = env('TWILIO_WHATSAPP_NUMBER', '+14155238886');
+        $phone = $request->phone_number;
 
-        $recipientNumber = $request->input('recipient_number');
-        $message = $request->input('message', 'Halo dari UEU Bootcamp!');
-
-        if (!str_starts_with($recipientNumber, 'whatsapp:')) {
-            $recipientNumber = 'whatsapp:' . $recipientNumber;
+        if (!$phone) {
+            return response()->json(['error' => 'Nomor tidak boleh kosong'], 422);
         }
 
-        if (!str_starts_with($twilioWhatsAppNumber, 'whatsapp:')) {
-            $twilioWhatsAppNumber = 'whatsapp:' . $twilioWhatsAppNumber;
-        }
+        $normalized = $this->normalizePhone($phone);
+        $otp = rand(100000, 999999);
 
-        $twilio = new Client($twilioSid, $twilioToken);
+        session(['otp_code' => $otp]);
 
+        // Send via Twilio WhatsApp
         try {
+            $twilio = new Client(config('services.twilio.sid'), config('services.twilio.token'));
             $twilio->messages->create(
-                $recipientNumber,
+                'whatsapp:' . $normalized,
                 [
-                    'from' => $twilioWhatsAppNumber,
-                    'body' => $message,
+                    'from' => 'whatsapp:' . config('services.twilio.whatsapp_from'),
+                    'body' => "Kode verifikasi UEU Bootcamp Anda adalah: $otp"
                 ]
             );
 
-            return response()->json(['message' => 'Pesan WhatsApp berhasil dikirim']);
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            \Log::error('Gagal kirim WA: ' . $e->getMessage());
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Gagal mengirim OTP: ' . $e->getMessage()], 500);
         }
+    }
+
+    protected function normalizePhone($phone)
+    {
+        $phone = preg_replace('/[^0-9]/', '', $phone);
+        if (str_starts_with($phone, '0')) {
+            return '62' . substr($phone, 1);
+        }
+        return $phone;
     }
 }

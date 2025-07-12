@@ -14,6 +14,8 @@ use App\Models\CourseEnrollment;
 use App\Models\PaymentTransaction;
 use App\Mail\InvoiceMidtrans;
 use Illuminate\Support\Facades\Mail;
+use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Session;
 
 class MidtransController extends Controller
 {
@@ -35,7 +37,7 @@ class MidtransController extends Controller
         Config::$isSanitized = true;
         Config::$is3ds = true;
 
-        $orderId = 'DEMO-' . uniqid();
+        $orderId = 'UEU Bootcamp MID-' . uniqid();
 
         $course = \App\Models\Course::where('is_active', true)->find($request->course_id);
         if (!$course) {
@@ -54,6 +56,15 @@ class MidtransController extends Controller
                 'phone' => $request->phone_number,
             ]
         ];
+
+        $otpInput = $request->input('otp');
+        $savedOtp = Session::pull('otp_code'); // Sekali pakai: ambil lalu hapus dari session
+        $otpExpired = Session::pull('otp_expired'); // Sekali pakai
+
+        if (!$savedOtp || !$otpExpired || now()->greaterThan($otpExpired) || $otpInput != $savedOtp) {
+            return response()->json(['error' => 'Kode OTP salah atau kedaluwarsa.'], 422);
+        }
+
 
         $snapToken = Snap::getSnapToken($params);
 
@@ -140,5 +151,53 @@ class MidtransController extends Controller
         }
 
         return response()->json(['status' => 'success']);
+    }
+
+    public function generateOtp(Request $request)
+    {
+        if (Session::has('otp_code') && now()->lessThan(Session::get('otp_expired'))) {
+            return response()->json(['error' => 'OTP sebelumnya masih berlaku. Silakan gunakan OTP yang sudah dikirim.'], 429);
+        }
+        
+        $phone = $request->input('phone_number');
+
+        if (!$phone) {
+            return response()->json(['error' => 'Nomor HP wajib diisi'], 422);
+        }
+
+        // Normalisasi nomor ke format internasional
+        $phone = preg_replace('/\D/', '', $phone); // Hapus semua non-digit
+
+        if (str_starts_with($phone, '62')) {
+            $normalizedPhone = '+' . $phone;
+        } elseif (str_starts_with($phone, '08')) {
+            $normalizedPhone = '+62' . substr($phone, 1);
+        } elseif (str_starts_with($phone, '+62')) {
+            $normalizedPhone = $phone;
+        } else {
+            return response()->json(['error' => 'Format nomor tidak valid. Gunakan 08xxxx atau +628xxxx'], 422);
+        }
+
+
+        $otp = rand(100000, 999999);
+        Session::put('otp_code', $otp);
+        Session::put('otp_expired', now()->addMinutes(5));
+
+        try {
+            $sid = config('services.twilio.sid');
+            $token = config('services.twilio.token');
+            $from = config('services.twilio.whatsapp_from');
+
+            $twilio = new Client($sid, $token);
+
+            $twilio->messages->create("whatsapp:{$normalizedPhone}", [
+                "from" => "whatsapp:{$from}",
+                "body" => "Kode verifikasi OTP Anda adalah: {$otp}. Berlaku selama 5 menit."
+            ]);
+
+            return response()->json(['message' => 'OTP berhasil dikirim ke WhatsApp.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengirim OTP: ' . $e->getMessage()], 500);
+        }
     }
 }

@@ -114,6 +114,15 @@
                                     <input type="text" id="phone_number" class="form-control" required>
                                 </div>
                                 <div class="col-md-6">
+                                    <label>Kode OTP (via WhatsApp)</label>
+                                    <div class="input-group">
+                                        <input type="text" id="otp" class="form-control"
+                                            placeholder="Masukkan OTP" required>
+                                        <button type="button" id="generate-otp"
+                                            class="btn btn-outline-secondary">Kirim OTP</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
                                     <label>NIK</label>
                                     <input type="text" id="nik" class="form-control" required>
                                 </div>
@@ -137,7 +146,7 @@
 
                             <br>
                             <div class="form-group mb-4 position-relative">
-                                <label id="captcha-question">Klik tombol Generate Verify terlebih dahulu</label>
+                                <label id="captcha-question">Human Verification (Generate Verify terlebih dahulu)</label>
                                 <input type="number" name="captcha" id="captcha" required
                                     class="form-control pe-5" placeholder="Masukkan jawaban">
                                 <div id="captcha-error" class="text-danger mt-1" style="display:none;"></div>
@@ -252,6 +261,8 @@
 
             if (isNaN(userAnswer) || userAnswer !== expected) {
                 const errorDiv = document.getElementById('captcha-error');
+                errorDiv.innerText = 'Jawaban salah. Soal diganti, silakan coba lagi.';
+                errorDiv.style.display = 'block';
 
                 // 🎯 GANTI soal baru jika salah
                 generateNewCaptcha();
@@ -285,6 +296,38 @@
     </script>
 
     <script>
+        document.getElementById('generate-otp').addEventListener('click', function() {
+            const phoneNumber = document.getElementById('phone_number').value;
+
+            if (!phoneNumber) {
+                alert('Masukkan nomor HP terlebih dahulu.');
+                return;
+            }
+
+            fetch("{{ route('otp.generate') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content')
+                    },
+                    body: JSON.stringify({
+                        phone_number: phoneNumber
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        alert(data.message || 'OTP berhasil dikirim ke WhatsApp!');
+                    }
+                })
+                .catch(() => {
+                    alert('Terjadi kesalahan saat mengirim OTP.');
+                });
+        });
+
         document.querySelectorAll('.toggle-password').forEach(toggle => {
             toggle.addEventListener('click', function() {
                 const targetId = this.dataset.target;
@@ -364,6 +407,7 @@
                 course_id: document.getElementById('course_id').value,
                 password: password,
                 send_invoice_to: sendInvoice ? invoiceEmail : null,
+                otp: document.getElementById('otp').value,
             };
 
             if (!data.course_id) {

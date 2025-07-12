@@ -40,3 +40,4 @@ use App\Http\Controllers\MidtransController;
 Route::get('/register', [MidtransController::class, 'form'])->name('register.form');
 Route::post('/register/token', [MidtransController::class, 'token'])->name('register.token');
 Route::post('/payment/callback', [MidtransController::class, 'handleSuccess'])->name('register.callback');
+Route::post('/otp-generate', [MidtransController::class, 'generateOtp'])->name('otp.generate');
