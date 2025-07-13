@@ -21,6 +21,7 @@
             <ul class="desktop">
                 <li><a href="{{ url('/') }}" class="active">Home</a></li>
                 <li><a href="{{ url('/#about') }}">About</a></li>
+                <li><a href="{{ url('/#services') }}">Services</a></li>
                 <li><a href="{{ url('/#contact') }}">Contact</a></li>
                 <li><a href="{{ url('/blog') }}">Blog</a></li>
                 <a href="{{ url('/sso') }}" class="login-btn" style="padding: 10px 30px;">Masuk</a>&nbsp;|&nbsp;

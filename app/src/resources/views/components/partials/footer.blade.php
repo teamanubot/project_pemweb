@@ -23,11 +23,11 @@
             <div class="col-lg-4 ms-auto kanan footer-links">
                 <h4>Useful Links</h4>
                 <ul class="list-unstyled likekanan">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Terms of service</a></li>
-                    <li><a href="#">Privacy policy</a></li>
+                    <li><a href="{{ url('/') }}" class="active">Home</a></li>
+                    <li><a href="{{ url('/#about') }}">About</a></li>
+                    <li><a href="{{ url('/#services') }}">Services</a></li>
+                    <li><a href="{{ url('/#contact') }}">Contact</a></li>
+                    <li><a href="{{ url('/blog') }}">Blog</a></li>
                 </ul>
             </div>
 

@@ -344,8 +344,9 @@
                         <i class="bi bi-building icon flex-shrink-0"></i>
                         <div>
                             <h4 class="title"><a class="stretched-link">Link ke Dunia Industri</a></h4>
-                            <p class="description">UEU Bootcamp menjembatani mahasiswa dengan dunia kerja melalui
-                                program magang, studi lapangan, dan proyek dari perusahaan mitra.</p>
+                            <p class="description">
+                                UEU Bootcamp membantu peserta membangun kesiapan kerja melalui pelatihan dan pengalaman proyek dari dunia industri.
+                            </p>
                         </div>
                     </div>
                 </div>
