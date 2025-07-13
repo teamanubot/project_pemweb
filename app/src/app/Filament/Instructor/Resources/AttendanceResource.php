@@ -13,10 +13,23 @@ class AttendanceResource extends Resource
 
     public static function getPages(): array
     {
-        return [
+        /** @var \App\Models\User|null $user */
+        $user = auth('instructor')->user();
+
+        $pages = [
             'index' => Pages\ListAttendances::route('/'),
             'student' => Pages\ListStudentAttendances::route('/student'),
+            'student-create' => Pages\StudentCreateAttendances::route('/student/create'),
+            'student-edit' => Pages\StudentEditAttendances::route('/student/{record}/edit'),
             'teacher' => Pages\ListTeacherAttendances::route('/teacher'),
+            'teacher-create' => Pages\TeacherCreateAttendances::route('/teacher/create'),
+            'teacher-edit' => Pages\TeacherEditAttendances::route('/teacher/{record}/edit'),
         ];
+
+        if (!$user || !$user->hasRole('teacher', 'instructor')) {
+            $pages['edit'] = Pages\TeacherEditAttendances::route('/teacher/{record}/edit');
+        }
+
+        return $pages;
     }
 }

@@ -113,7 +113,7 @@ class RoleSeeder extends Seeder
                 \App\Models\Quiz::class => ['create', 'view', 'view any', 'update'],
                 \App\Models\Submission::class => ['view', 'view any', 'update'],
                 \App\Models\Grade::class => ['view', 'view any', 'update'],
-                \App\Models\Attendance::class => ['create', 'view', 'view any'],
+                \App\Models\Attendance::class => ['create', 'view', 'view any', 'update'],
                 \App\Models\Leave::class => ['create', 'view', 'view any'],
                 \App\Models\Sallary::class => ['view', 'view any'],
                 \App\Models\Course::class => ['view', 'view any'],

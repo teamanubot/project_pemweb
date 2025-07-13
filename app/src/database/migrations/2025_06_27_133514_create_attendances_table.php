@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('attendance_date');
             $table->timestamp('clock_in_time')->nullable();
             $table->timestamp('clock_out_time')->nullable();
-            $table->enum('status', ['present', 'late', 'absent', 'sick', 'leave', 'alpha']);
+            $table->enum('status', ['present', 'late', 'absent', 'sick', 'leave', 'alpha'])->nullable();
             $table->string('proof_file_path')->nullable();
             $table->text('notes')->nullable();
             $table->foreignId('verified_by_user_id')->nullable()->constrained('users');

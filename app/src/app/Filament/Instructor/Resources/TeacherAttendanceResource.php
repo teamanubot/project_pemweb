@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Collection;
 
-class AllAttendanceResource extends Resource
+class TeacherAttendanceResource extends Resource
 {
     protected static ?string $model = Attendance::class;
 
@@ -28,53 +28,7 @@ class AllAttendanceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-    ->label('Nama')
-    ->searchable()
-    ->required()
-    ->options(function () {
-        // Ambil user dengan guard 'student' dan role 'student'
-        $studentIds = Role::where('name', 'student')
-            ->where('guard_name', 'student')
-            ->first()
-            ?->users()
-            ->pluck('id');
-
-        // Ambil user dengan guard 'instructor' dan role 'teacher'
-        $teacherIds = Role::where('name', 'teacher')
-            ->where('guard_name', 'instructor')
-            ->first()
-            ?->users()
-            ->pluck('id');
-
-        // Gabungkan ID dan ambil user-nya
-        $userIds = $studentIds->merge($teacherIds);
-
-        return User::whereIn('id', $userIds)->pluck('name', 'id');
-    }),
-                Forms\Components\TextInput::make('sesi_id')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\DatePicker::make('attendance_date')
-                    ->required(),
-                Forms\Components\DateTimePicker::make('clock_in_time'),
-                Forms\Components\DateTimePicker::make('clock_out_time'),
-                Forms\Components\Select::make('status')
-                    ->label('Attendance Status')
-                    ->required()
-                    ->options([
-                        'present' => 'Present',
-                        'late'    => 'Late',
-                        'absent'  => 'Absent',
-                        'sick'    => 'Sick',
-                        'leave'   => 'Leave',
-                        'alpha'   => 'Alpha',
-                    ]),
-                Forms\Components\TextInput::make('proof_file_path')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\Textarea::make('notes')
-                    ->columnSpanFull(),
-                Forms\Components\Select::make('verified_by_user_id')
+                    ->label('Nama')
                     ->options(function () {
                         $user = auth('instructor')->user();
                         return $user ? [$user->id => $user->name] : [];
@@ -83,7 +37,46 @@ class AllAttendanceResource extends Resource
                     ->disabled()
                     ->required()
                     ->dehydrated(),
+                Forms\Components\TextInput::make('sesi_id')
+                    ->numeric()
+                    ->default(null),
+                Forms\Components\DatePicker::make('attendance_date')
+                    ->default(today())
+                    ->disabled()
+                    ->required()
+                    ->dehydrated(),
+                Forms\Components\DateTimePicker::make('clock_in_time')
+                    ->default(now())
+                    ->disabled()
+                    ->required()
+                    ->dehydrated(),
+                Forms\Components\DateTimePicker::make('clock_out_time')
+                    ->default(null)
+                    ->disabled()
+                    ->dehydrated(),
+                Forms\Components\Select::make('status')
+                    ->label('Attendance Status')
+                    ->options([
+                        'present' => 'Present',
+                        'late'    => 'Late',
+                        'absent'  => 'Absent',
+                        'sick'    => 'Sick',
+                        'leave'   => 'Leave',
+                        'alpha'   => 'Alpha',
+                    ])
+                    ->disabled()
+                    ->dehydrated(),
+                Forms\Components\TextInput::make('proof_file_path')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\Textarea::make('notes')
+                    ->columnSpanFull(),
+                Forms\Components\Select::make('verified_by_user_id')
+                    ->default(null)
+                    ->hidden(),
                 Forms\Components\DateTimePicker::make('verified_at')
+                    ->default(null)
+                    ->hidden(),
             ]);
     }
 
@@ -137,32 +130,17 @@ class AllAttendanceResource extends Resource
             ]);
     }
 
-    public static function getEloquentQuery(): Builder
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
+        /** @var \App\Models\User|null $user */
         $user = auth('instructor')->user();
 
-        if (
-            request()->routeIs('filament.instructor.resources.attendances.student') ||
-            request()->routeIs('filament.instructor.resources.attendances.student-create') ||
-            request()->routeIs('filament.instructor.resources.attendances.student-edit')
-        ) {
-
+        if ($user && $user->hasRole('teacher')) {
             return parent::getEloquentQuery()
-                ->whereHas('user.roles', fn($q) => $q->where('name', 'student'));
+                ->where('user_id', $user->id);
         }
 
-        if (
-            request()->routeIs('filament.instructor.resources.attendances.teacher') ||
-            request()->routeIs('filament.instructor.resources.attendances.teacher-create') ||
-            request()->routeIs('filament.instructor.resources.attendances.teacher-edit')
-        ) {
-
-            return parent::getEloquentQuery()
-                ->where('verified_by_user_id', $user?->id);
-        }
-
-        // default: return kosong
-        return parent::getEloquentQuery()->whereRaw('1=0');
+        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
     }
 
     public static function getRelations(): array
@@ -170,20 +148,12 @@ class AllAttendanceResource extends Resource
         return [
             //
         ];
-    }
+    }   
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListAttendances::route('/'),
-            'student' => Pages\ListStudentAttendances::route('/student'),
-            'teacher' => Pages\ListTeacherAttendances::route('/teacher'),
-
-            'student-create' => Pages\StudentCreateAttendances::route('/student/create'),
-            'student-edit' => Pages\StudentEditAttendances::route('/student/{record}/edit'),
-
-            'teacher-create' => Pages\TeacherCreateAttendances::route('/teacher/create'),
-            'teacher-edit' => Pages\TeacherEditAttendances::route('/teacher/{record}/edit'),
         ];
     }
 }
