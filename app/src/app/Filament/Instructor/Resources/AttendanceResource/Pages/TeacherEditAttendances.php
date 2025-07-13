@@ -24,10 +24,10 @@ class TeacherEditAttendances extends EditRecord
         $user = auth('instructor')->user();
 
         if ($user && $user->hasRole('teacher', 'instructor')) {
-            abort(403, 'Teacher tidak diizinkan mengakses halaman ini.');
+            $this->redirect('/instructor/attendances/teacher');
         }
     }
-    
+
     protected function getHeaderActions(): array
     {
         return [

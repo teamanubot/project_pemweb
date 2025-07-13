@@ -52,9 +52,29 @@ class AttendanceResource extends Resource
                         'leave'   => 'Leave',
                         'alpha'   => 'Alpha',
                     ]),
-                Forms\Components\TextInput::make('proof_file_path')
-                    ->maxLength(255)
-                    ->default(null),
+                Forms\Components\FileUpload::make('proof_file_path')
+                    ->label('Upload Bukti')
+                    ->directory('Attendance') // folder penyimpanan di storage/app/public/Attendance
+                    ->acceptedFileTypes([
+                        'application/pdf',
+                        'application/msword', // .doc
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+                        'image/*',
+                    ])
+                    ->maxSize(102400) // maksimal 2MB
+                    ->disk('public') // gunakan disk 'public' (pastikan `php artisan storage:link` sudah dijalankan)
+                    ->nullable()
+                    ->getUploadedFileNameForStorageUsing(function ($file, $get) {
+                        $user = \App\Models\User::find($get('user_id'));
+                        $attendance = \App\Models\Attendance::find($get('attendance_id'));
+
+                        $userName = $user?->name ?? 'user';
+                        $attendanceDate = $attendance?->attendance_date->format('Y-m-d') ?? 'date';
+
+                        $extension = $file->getClientOriginalExtension();
+
+                        return "{$userName} - {$attendanceDate}.{$extension}";
+                    }),
                 Forms\Components\Textarea::make('notes')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('verified_by_user_id')

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceDownloadController;
 use App\Http\Controllers\ModuleDownloadController;
 use App\Http\Controllers\QuizDownloadController;
 use App\Http\Controllers\SubmissionDownloadController;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 use App\Models\Submission;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\MidtransController;
 
 /* NOTE: Do Not Remove
 / Livewire asset handling if using sub folder in domain
@@ -43,7 +45,8 @@ Route::get('/module-download/{filename}', ModuleDownloadController::class)
 Route::get('/quiz-download/{filename}', QuizDownloadController::class)
     ->name('quiz.download');
 
-use App\Http\Controllers\MidtransController;
+Route::get('/attendance-download/{filename}', AttendanceDownloadController::class)
+    ->name('attendance.download');
 
 Route::get('/register', [MidtransController::class, 'form'])->name('register.form');
 Route::post('/register/token', [MidtransController::class, 'token'])->name('register.token');

@@ -53,6 +53,29 @@ class StudentAttendanceResource extends Resource
                 Forms\Components\TextInput::make('proof_file_path')
                     ->maxLength(255)
                     ->default(null),
+                Forms\Components\FileUpload::make('proof_file_path')
+                    ->label('Upload Bukti')
+                    ->directory('Attendance') // folder penyimpanan di storage/app/public/Attendance
+                    ->acceptedFileTypes([
+                        'application/pdf',
+                        'application/msword', // .doc
+                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+                        'image/*',
+                    ])
+                    ->maxSize(102400) // maksimal 2MB
+                    ->disk('public') // gunakan disk 'public' (pastikan `php artisan storage:link` sudah dijalankan)
+                    ->nullable()
+                    ->getUploadedFileNameForStorageUsing(function ($file, $get) {
+                        $user = \App\Models\User::find($get('user_id'));
+                        $attendance = \App\Models\Attendance::find($get('attendance_id'));
+
+                        $userName = $user?->name ?? 'user';
+                        $attendanceDate = $attendance?->attendance_date->format('Y-m-d') ?? 'date';
+
+                        $extension = $file->getClientOriginalExtension();
+
+                        return "{$userName} - {$attendanceDate}.{$extension}";
+                    }),
                 Forms\Components\Textarea::make('notes')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('verified_by_user_id')
@@ -61,7 +84,6 @@ class StudentAttendanceResource extends Resource
                         return $user ? [$user->id => $user->name] : [];
                     })
                     ->default(auth('instructor')->id())
-                    ->disabled()
                     ->required()
                     ->dehydrated(),
                 Forms\Components\DateTimePicker::make('verified_at')
@@ -110,6 +132,14 @@ class StudentAttendanceResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn($record) => route('attendance.download', ['filename' => basename($record->file_path)]))
+                    ->openUrlInNewTab(true) // WAJIB dibuka di tab baru agar browser force download
+                    ->button()
+                    ->color('success')
+                    ->visible(fn($record) => filled($record->file_path)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -129,6 +159,8 @@ class StudentAttendanceResource extends Resource
     {
         return [
             'index' => Pages\ListAttendances::route('/'),
+            'create' => Pages\StudentCreateAttendances::route('/student/create'),
+            'edit' => Pages\StudentEditAttendances::route('/student/{record}/edit'),
         ];
     }
 }
