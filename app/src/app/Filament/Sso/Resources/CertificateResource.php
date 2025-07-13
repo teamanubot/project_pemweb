@@ -90,6 +90,19 @@ class CertificateResource extends Resource
             ]);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        /** @var \App\Models\User|null $user */
+        $user = auth('student')->user();
+
+        if ($user && $user->hasRole('student')) {
+            return parent::getEloquentQuery()
+                ->where('user_id', $user->id);
+        }
+
+        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
+    }
+
     public static function getRelations(): array
     {
         return [

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Sso\Resources;
+namespace App\Filament\Instructor\Resources;
 
-use App\Filament\Sso\Resources\AttendanceResource\Pages;
-use App\Filament\Sso\Resources\AttendanceResource\RelationManagers;
+use App\Filament\Instructor\Resources\AttendanceResource\Pages;
+use App\Filament\Instructor\Resources\AttendanceResource\RelationManagers;
 use App\Models\Attendance;
 use App\Models\User;
 use Filament\Forms;
@@ -13,27 +13,44 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Collection;
 
-class AttendanceResource extends Resource
+class AllAttendanceResource extends Resource
 {
     protected static ?string $model = Attendance::class;
 
     protected static ?string $navigationGroup = 'Academics';
 
-    public static function form(Form $form): Form
+    public static function form(Form $form, ?string $context = null): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->label('Nama')
-                    ->options(function () {
-                        $user = auth('student')->user();
-                        return $user ? [$user->id => $user->name] : [];
-                    })
-                    ->default(auth('student')->id())
-                    ->disabled()
-                    ->required()
-                    ->dehydrated(),
+    ->label('Nama')
+    ->searchable()
+    ->required()
+    ->options(function () {
+        // Ambil user dengan guard 'student' dan role 'student'
+        $studentIds = Role::where('name', 'student')
+            ->where('guard_name', 'student')
+            ->first()
+            ?->users()
+            ->pluck('id');
+
+        // Ambil user dengan guard 'instructor' dan role 'teacher'
+        $teacherIds = Role::where('name', 'teacher')
+            ->where('guard_name', 'instructor')
+            ->first()
+            ?->users()
+            ->pluck('id');
+
+        // Gabungkan ID dan ambil user-nya
+        $userIds = $studentIds->merge($teacherIds);
+
+        return User::whereIn('id', $userIds)->pluck('name', 'id');
+    }),
                 Forms\Components\TextInput::make('sesi_id')
                     ->numeric()
                     ->default(null),
@@ -58,11 +75,15 @@ class AttendanceResource extends Resource
                 Forms\Components\Textarea::make('notes')
                     ->columnSpanFull(),
                 Forms\Components\Select::make('verified_by_user_id')
-                    ->default(null)
-                    ->hidden(),
+                    ->options(function () {
+                        $user = auth('instructor')->user();
+                        return $user ? [$user->id => $user->name] : [];
+                    })
+                    ->default(auth('instructor')->id())
+                    ->disabled()
+                    ->required()
+                    ->dehydrated(),
                 Forms\Components\DateTimePicker::make('verified_at')
-                    ->default(null)
-                    ->hidden(),
             ]);
     }
 
@@ -116,17 +137,32 @@ class AttendanceResource extends Resource
             ]);
     }
 
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    public static function getEloquentQuery(): Builder
     {
-        /** @var \App\Models\User|null $user */
-        $user = auth('student')->user();
+        $user = auth('instructor')->user();
 
-        if ($user && $user->hasRole('student')) {
+        if (
+            request()->routeIs('filament.instructor.resources.attendances.student') ||
+            request()->routeIs('filament.instructor.resources.attendances.student-create') ||
+            request()->routeIs('filament.instructor.resources.attendances.student-edit')
+        ) {
+
             return parent::getEloquentQuery()
-                ->where('user_id', $user->id);
+                ->whereHas('user.roles', fn($q) => $q->where('name', 'student'));
         }
 
-        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
+        if (
+            request()->routeIs('filament.instructor.resources.attendances.teacher') ||
+            request()->routeIs('filament.instructor.resources.attendances.teacher-create') ||
+            request()->routeIs('filament.instructor.resources.attendances.teacher-edit')
+        ) {
+
+            return parent::getEloquentQuery()
+                ->where('verified_by_user_id', $user?->id);
+        }
+
+        // default: return kosong
+        return parent::getEloquentQuery()->whereRaw('1=0');
     }
 
     public static function getRelations(): array
@@ -140,8 +176,14 @@ class AttendanceResource extends Resource
     {
         return [
             'index' => Pages\ListAttendances::route('/'),
-            'create' => Pages\CreateAttendance::route('/create'),
-            'edit' => Pages\EditAttendance::route('/{record}/edit'),
+            'student' => Pages\ListStudentAttendances::route('/student'),
+            'teacher' => Pages\ListTeacherAttendances::route('/teacher'),
+
+            'student-create' => Pages\StudentCreateAttendances::route('/student/create'),
+            'student-edit' => Pages\StudentEditAttendances::route('/student/{record}/edit'),
+
+            'teacher-create' => Pages\TeacherCreateAttendances::route('/teacher/create'),
+            'teacher-edit' => Pages\TeacherEditAttendances::route('/teacher/{record}/edit'),
         ];
     }
 }

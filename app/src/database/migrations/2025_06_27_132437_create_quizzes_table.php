@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->enum('type', ['quiz', 'assignment']);
+            $table->string('file_path')->nullable(); // untuk menyimpan path file quiz atau assignment
             $table->timestamp('due_date');
             $table->integer('max_score');
             $table->foreignId('created_by_user_id')->constrained('users');

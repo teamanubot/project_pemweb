@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ModuleDownloadController;
+use App\Http\Controllers\QuizDownloadController;
 use App\Http\Controllers\SubmissionDownloadController;
 use App\Http\Controllers\SyllabusDownloadController;
 use App\Livewire\MainPage;
@@ -34,6 +36,12 @@ Route::get('/submission-download/{filename}', SubmissionDownloadController::clas
 
 Route::get('/syllabus-download/{filename}', SyllabusDownloadController::class)
     ->name('syllabus.download');
+
+Route::get('/module-download/{filename}', ModuleDownloadController::class)
+    ->name('module.download');
+
+Route::get('/quiz-download/{filename}', QuizDownloadController::class)
+    ->name('quiz.download');
 
 use App\Http\Controllers\MidtransController;
 

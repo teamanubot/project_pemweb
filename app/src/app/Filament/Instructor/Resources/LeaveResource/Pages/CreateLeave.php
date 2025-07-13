@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateLeave extends CreateRecord
 {
     protected static string $resource = LeaveResource::class;
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth('instructor')->id(); // Set user_id secara eksplisit
+
+        return $data;
+    }
 }

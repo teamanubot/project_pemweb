@@ -133,4 +133,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
             default      => false,
         };
     }
+
+    public static function getUsersByRoleAndGuard(string $role, string $guard): \Illuminate\Support\Collection
+    {
+        return static::whereHas('roles', function ($q) use ($role, $guard) {
+            $q->where('name', $role)->where('guard_name', $guard);
+        })->pluck('name', 'id');
+    }
 }

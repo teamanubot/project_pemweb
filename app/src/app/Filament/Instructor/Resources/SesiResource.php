@@ -27,7 +27,9 @@ class SesiResource extends Resource
                     ->relationship('course', 'name')
                     ->required(),
                 Forms\Components\Select::make('teacher_id')
+                    ->default(auth('instructor')->id())
                     ->relationship('teacher', 'name')
+                    ->disabled()
                     ->required(),
                 Forms\Components\TextInput::make('session_number')
                     ->required()
@@ -106,6 +108,19 @@ class SesiResource extends Resource
                 ]),
             ]);
     }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        /** @var \App\Models\User|null $user */
+        $user = auth('instructor')->user();
+
+        if ($user && $user->hasRole('teacher')) {
+            return parent::getEloquentQuery()
+                ->where('teacher_id', $user->id);
+        }
+
+        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
+    } 
 
     public static function getRelations(): array
     {

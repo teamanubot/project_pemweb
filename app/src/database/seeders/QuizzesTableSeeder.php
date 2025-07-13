@@ -18,6 +18,7 @@ class QuizzesTableSeeder extends Seeder
             'title' => 'Quiz HTML',
             'description' => 'Tes awal',
             'type' => 'quiz',
+            'file_path' => null,
             'due_date' => now()->addDays(3),
             'max_score' => 100,
             'created_by_user_id' => User::first()->id

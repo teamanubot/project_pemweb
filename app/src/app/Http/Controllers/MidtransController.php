@@ -126,6 +126,7 @@ class MidtransController extends Controller
         $result = $request->midtrans_result;
 
         $paymentTransaction = PaymentTransaction::create([
+            'user_id'                => $student->id,
             'course_enrollment_id'   => $enrollment->id,
             'midtrans_order_id'      => $result['order_id'] ?? null,
             'midtrans_transaction_id' => $result['transaction_id'] ?? null,

@@ -23,6 +23,15 @@ class PaymentTransactionResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('user_id')
+                    ->options(function () {
+                        $user = auth('student')->user();
+                        return $user ? [$user->id => $user->name] : [];
+                    })
+                    ->default(auth('student')->id())
+                    ->disabled()
+                    ->required()
+                    ->dehydrated(),
                 Forms\Components\Select::make('course_enrollment_id')
                     ->relationship('courseEnrollment', 'id')
                     ->required(),
@@ -57,6 +66,9 @@ class PaymentTransactionResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('user.name')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('courseEnrollment.id')
                     ->numeric()
                     ->sortable(),
@@ -101,6 +113,19 @@ class PaymentTransactionResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        /** @var \App\Models\User|null $user */
+        $user = auth('student')->user();
+
+        if ($user && $user->hasRole('student')) {
+            return parent::getEloquentQuery()
+                ->where('user_id', $user->id);
+        }
+
+        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
     }
 
     public static function getRelations(): array

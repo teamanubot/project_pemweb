@@ -24,8 +24,9 @@ class LeaveResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->default(auth('instructor')->id())
                     ->relationship('user', 'name')
-                    ->required(),
+                    ->disabled(),
                 Forms\Components\TextInput::make('leave_type')
                     ->required(),
                 Forms\Components\DatePicker::make('start_date')
@@ -39,17 +40,30 @@ class LeaveResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\TextInput::make('proof_file_path')
+                    ->label('Surat Bukti/Izin')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
+                Forms\Components\Select::make('status')
+                    ->label('Leave Status')
+                    ->required()
+                    ->options([
+                        'pending' => 'Pending',
+                        'approved' => 'Approved',
+                        'rejected' => 'Rejected',
+                    ])
+                    ->default('pending')
+                    ->hidden(),
                 Forms\Components\TextInput::make('approved_by_user_id')
                     ->numeric()
-                    ->default(null),
-                Forms\Components\DateTimePicker::make('approved_at'),
+                    ->default(null)
+                    ->hidden(), 
+                Forms\Components\DateTimePicker::make('approved_at')
+                    ->default(null)
+                    ->hidden(),
                 Forms\Components\TextInput::make('replacement_user_id')
                     ->numeric()
-                    ->default(null),
+                    ->default(null)
+                    ->hidden(),
             ]);
     }
 
@@ -102,6 +116,19 @@ class LeaveResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        /** @var \App\Models\User|null $user */
+        $user = auth('instructor')->user();
+
+        if ($user && $user->hasRole('teacher')) {
+            return parent::getEloquentQuery()
+                ->where('user_id', $user->id);
+        }
+
+        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
     }
 
     public static function getRelations(): array

@@ -20,6 +20,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Administration';
 
+    protected static ?string $navigationLabel = 'Profile';
+
     protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?int $navigationSort = -2;
@@ -82,39 +84,11 @@ class UserResource extends Resource
                             ->password(),
                     ]),
 
-                Forms\Components\Section::make('Roles')
-                    ->schema([
-                        Forms\Components\Select::make('roles')
-                            ->required()
-                            ->multiple()
-                            ->relationship('roles', 'name')
-                            ->label('Roles Permission'),
-                    ])
-                    ->columns(1),
-
                 Forms\Components\TextInput::make('phone_number')->required(),
                 Forms\Components\Textarea::make('address')->required(),
                 Forms\Components\TextInput::make('nik')->required(),
-                Forms\Components\TextInput::make('job_title')->required(),
-                Forms\Components\Select::make('department_id')
-                    ->relationship('department', 'name'),
-                Forms\Components\Select::make('employment_status')
-                    ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
-                    ]),
                 Forms\Components\DatePicker::make('onboarding_date')->required(),
                 Forms\Components\TextInput::make('expertise_area')->label('Expertise Area')->nullable(),
-                Forms\Components\Select::make('teaching_status')
-                    ->options([
-                        'active' => 'Active',
-                        'inactive' => 'Inactive',
-                    ])
-                    ->nullable(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->unique(ignoreRecord: true),
 
             ]);
     }
@@ -136,18 +110,11 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->badge()
-                    ->sortable()
-                    ->searchable()
-                    ->label('Role'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Bergabung')
                     ->date()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('job_title'),
-                Tables\Columns\TextColumn::make('department.name')->label('Department'),
-                Tables\Columns\TextColumn::make('employment_status')->badge(),
 
 
             ])
@@ -168,6 +135,25 @@ class UserResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ]);
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        /** @var \App\Models\User|null $user */
+        $user = auth('student')->user();
+
+        if ($user && $user->hasRole('student')) {
+            return parent::getEloquentQuery()
+                ->where('id', $user->id);
+        }
+
+        return parent::getEloquentQuery()->whereRaw('1 = 0');
+    }
+
+
+    public static function canDelete(Model $record): bool
+    {
+        return false;
     }
 
     public static function getRelations(): array

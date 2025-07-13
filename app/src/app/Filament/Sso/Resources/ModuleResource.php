@@ -83,6 +83,14 @@ class ModuleResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn($record) => route('module.download', ['filename' => basename($record->file_path)]))
+                    ->openUrlInNewTab(true) // WAJIB dibuka di tab baru agar browser force download
+                    ->button()
+                    ->color('success')
+                    ->visible(fn($record) => filled($record->file_path)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

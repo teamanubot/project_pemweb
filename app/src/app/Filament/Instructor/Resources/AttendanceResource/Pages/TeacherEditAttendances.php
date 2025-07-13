@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Sso\Resources\AttendanceResource\Pages;
+namespace App\Filament\Instructor\Resources\AttendanceResource\Pages;
 
-use App\Filament\Sso\Resources\AttendanceResource;
+use App\Filament\Instructor\Resources\AllAttendanceResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditAttendance extends EditRecord
+class TeacherEditAttendances extends EditRecord
 {
-    protected static string $resource = AttendanceResource::class;
+    protected static string $resource = AllAttendanceResource::class;
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['verified_by_user_id'] = auth('instructor')->id(); // Set user_id secara eksplisit

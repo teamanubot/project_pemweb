@@ -177,7 +177,7 @@ class UsersTableSeeder extends Seeder
                     'employment_status' => null,
                     'onboarding_date'   => now()->toDateString(),
                     'expertise_area'    => 'Web Development',
-                    'teaching_status'   => null,
+                    'teaching_status'   => 'Active',
                 ]
             );
 

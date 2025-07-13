@@ -15,11 +15,12 @@ class PaymentTransactionsTableSeeder extends Seeder
         foreach ($enrollments as $index => $enrollment) {
             $course = $enrollment->course;
 
-            if (!$course) {
-                continue; // Lewati jika tidak ada relasi course
+            if (!$course || !$enrollment->user_id) {
+                continue; // Lewati jika tidak ada relasi course atau user
             }
 
             PaymentTransaction::create([
+                'user_id'                  => $enrollment->user_id,
                 'course_enrollment_id'     => $enrollment->id,
                 'midtrans_order_id'        => 'MID-ORD-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
                 'midtrans_transaction_id'  => 'MID-TRANS-' . str_pad($index + 1, 4, '0', STR_PAD_LEFT),
@@ -30,7 +31,11 @@ class PaymentTransactionsTableSeeder extends Seeder
                 'transaction_time'         => now(),
                 'settlement_time'          => now(),
                 'expiry_time'              => now()->addDays(1),
-                'raw_response'             => json_encode(['status' => 'ok', 'course' => $course->name])
+                'raw_response'             => json_encode([
+                    'status' => 'ok',
+                    'course' => $course->name,
+                    'user_id' => $enrollment->user_id,
+                ]),
             ]);
         }
     }

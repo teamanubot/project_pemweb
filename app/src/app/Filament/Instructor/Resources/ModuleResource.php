@@ -41,11 +41,18 @@ class ModuleResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('uploaded_by_user_id')
+                Forms\Components\Select::make('uploaded_by_user_id')
+                    ->options(function () {
+                        $user = auth('instructor')->user();
+                        return $user ? [$user->id => $user->name] : [];
+                    })
+                    ->default(auth('instructor')->id())
+                    ->disabled()
                     ->required()
-                    ->numeric(),
+                    ->dehydrated(),
                 Forms\Components\Toggle::make('is_verified')
-                    ->required(),
+                    ->default(null)
+                    ->hidden(),
             ]);
     }
 
@@ -83,6 +90,14 @@ class ModuleResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('download')
+                    ->label('Download')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->url(fn($record) => route('module.download', ['filename' => basename($record->file_path)]))
+                    ->openUrlInNewTab(true) // WAJIB dibuka di tab baru agar browser force download
+                    ->button()
+                    ->color('success')
+                    ->visible(fn($record) => filled($record->file_path)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -90,6 +105,20 @@ class ModuleResource extends Resource
                 ]),
             ]);
     }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        /** @var \App\Models\User|null $user */
+        $user = auth('instructor')->user();
+
+        if ($user && $user->hasRole('teacher')) {
+            return parent::getEloquentQuery()
+                ->where('uploaded_by_user_id', $user->id);
+        }
+
+        return parent::getEloquentQuery()->whereRaw('1 = 0'); // Non-teacher tidak bisa lihat apa pun
+    }
+
 
     public static function getRelations(): array
     {

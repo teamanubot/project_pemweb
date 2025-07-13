@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('payment_transactions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('course_enrollment_id')->constrained('course_enrollments');
             $table->string('midtrans_order_id')->unique();
             $table->string('midtrans_transaction_id')->nullable()->unique();

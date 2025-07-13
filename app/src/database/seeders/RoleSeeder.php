@@ -62,7 +62,7 @@ class RoleSeeder extends Seeder
             ],
 
             'admin_hrm' => [
-                \App\Models\User::class => ['view', 'view any', 'update'],
+                \App\Models\User::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
                 \App\Models\Department::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
                 \App\Models\BranchOffice::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
                 \App\Models\Sesi::class => ['create', 'view', 'view any', 'update'],
@@ -106,7 +106,7 @@ class RoleSeeder extends Seeder
             ],
 
             'teacher' => [
-                \App\Models\User::class => ['view', 'update'],
+                \App\Models\User::class => ['view', 'view any', 'update'],
                 \App\Models\Sesi::class => ['view', 'view any'],
                 \App\Models\Syllabus::class => ['create', 'view', 'view any', 'update'],
                 \App\Models\Module::class => ['create', 'view', 'view any', 'update', 'delete', 'delete any'],
@@ -121,10 +121,10 @@ class RoleSeeder extends Seeder
             ],
 
             'student' => [
-                \App\Models\User::class => ['view', 'update'],
+                \App\Models\User::class => ['view', 'view any', 'update'],
                 \App\Models\CourseEnrollment::class => ['create', 'view', 'view any', 'update'],
                 \App\Models\Module::class => ['view', 'view any'],
-                \App\Models\Quiz::class => ['create', 'view', 'view any'],
+                \App\Models\Quiz::class => ['view', 'view any'],
                 \App\Models\Submission::class => ['create', 'view', 'view any', 'update'],
                 \App\Models\Grade::class => ['view', 'view any'],
                 \App\Models\Attendance::class => ['create', 'view', 'view any'],
