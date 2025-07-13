@@ -40,6 +40,59 @@
             transform: translateY(-50%);
             cursor: pointer;
         }
+
+        .popup-container {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            max-width: 400px;
+            width: 90%;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            padding: 15px 20px;
+            border-radius: 8px;
+            text-align: center;
+            animation: fadeInDown 0.5s ease;
+        }
+
+        .popup-box strong {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .popup-box p {
+            margin: 0;
+            color: #555;
+        }
+
+        .popup-container.error {
+            border-left: 5px solid #dc3545;
+        }
+
+        .popup-container.success {
+            border-left: 5px solid #28a745;
+        }
+
+        .popup-container.warning {
+            border-left: 5px solid #ffc107;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
     </style>
 </head>
 
@@ -146,7 +199,8 @@
 
                             <br>
                             <div class="form-group mb-4 position-relative">
-                                <label id="captcha-question">Human Verification (Generate Verify terlebih dahulu)</label>
+                                <label id="captcha-question">Human Verification (Generate Verify terlebih
+                                    dahulu)</label>
                                 <input type="number" name="captcha" id="captcha" required
                                     class="form-control pe-5" placeholder="Masukkan jawaban">
                                 <div id="captcha-error" class="text-danger mt-1" style="display:none;"></div>
@@ -228,6 +282,13 @@
         </div>
     </footer> -->
 
+    <div id="custom-popup" class="popup-container d-none">
+        <div class="popup-box">
+            <strong id="popup-title">Judul</strong>
+            <p id="popup-message">Pesan konten popup.</p>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="{{ asset('front/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('front/assets/vendor/php-email-form/validate.js') }}"></script>
@@ -300,7 +361,7 @@
             const phoneNumber = document.getElementById('phone_number').value;
 
             if (!phoneNumber) {
-                alert('Masukkan nomor HP terlebih dahulu.');
+                showPopup('warning', 'Kolom Nomor HP', 'Harap masukkan nomor HP sebelum mengirim OTP.');
                 return;
             }
 
@@ -318,13 +379,13 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.error) {
-                        alert(data.error);
+                        showPopup('error', 'OTP Gagal', data.error);
                     } else {
-                        alert(data.message || 'OTP berhasil dikirim ke WhatsApp!');
+                        showPopup('success', 'OTP Terkirim', 'OTP telah dikirim ke WhatsApp Anda.');
                     }
                 })
                 .catch(() => {
-                    alert('Terjadi kesalahan saat mengirim OTP.');
+                    showPopup('error', 'OTP Gagal', 'Terjadi kesalahan saat mengirim OTP.');
                 });
         });
 
@@ -379,7 +440,7 @@
             const passwordConfirmation = document.getElementById('password_confirmation').value;
 
             if (password !== passwordConfirmation) {
-                alert('Password tidak sama!');
+                showPopup('warning', 'Password Tidak Cocok', 'Password dan konfirmasi password tidak cocok.');
                 return;
             }
 
@@ -411,7 +472,7 @@
             };
 
             if (!data.course_id) {
-                alert('Silakan pilih course terlebih dahulu.');
+                showPopup('warning', 'Kolom Course', 'Silakan pilih course terlebih dahulu.');
                 return;
             }
 
@@ -420,7 +481,7 @@
                 if (key === 'send_invoice_to' && !sendInvoice) continue;
 
                 if (!data[key]) {
-                    alert(`Harap isi ${key.replace('_', ' ')} terlebih dahulu.`);
+                    showPopup('warning', `Kolom ${key.replace('_', ' ')}`, `Harap isi ${key.replace('_', ' ')} terlebih dahulu.`);
                     return;
                 }
             }
@@ -438,7 +499,7 @@
                 .then(async res => {
                     if (!res.ok) {
                         const errorData = await res.json();
-                        alert(errorData.error || 'Terjadi kesalahan.');
+                        showPopup('error', 'Kesalahan', errorData.error || 'Terjadi kesalahan.');
                         return;
                     }
                     return res.json();
@@ -462,22 +523,42 @@
                                     })
                                     .then(res => res.json())
                                     .then(data => {
-                                        alert(
-                                            'Terima kasih telah mendaftar! Pembayaran berhasil.'
-                                        );
+                                        showPopup('success', 'Pembayaran Berhasil', 'Anda telah berhasil mendaftar dan melakukan pembayaran.');
                                     });
                             },
                             onError: function(result) {
                                 alert('Terjadi error.');
-                                console.log(result);
+                                showPopup('error', 'Pembayaran', 'Terjadi kesalahan saat memproses pembayaran.');
                             },
                             onClose: function() {
-                                alert('Popup ditutup.');
+                                showPopup('warning', 'Pembayaran', 'Pembayaran dibatalkan karena popup ditutup.');
                             }
                         });
                     }
                 });
         });
+
+        function showPopup(type = 'success', title = 'Info', message = '', duration = 4000) {
+            const popup = document.getElementById('custom-popup');
+            const titleEl = document.getElementById('popup-title');
+            const messageEl = document.getElementById('popup-message');
+
+            // Bersihkan class sebelumnya
+            popup.className = 'popup-container';
+
+            if (['success', 'error', 'warning'].includes(type)) {
+                popup.classList.add(type);
+            }
+
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            popup.classList.remove('d-none');
+
+            // Auto close after `duration` ms
+            setTimeout(() => {
+                popup.classList.add('d-none');
+            }, duration);
+        }
     </script>
 
 </body>
