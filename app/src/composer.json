@@ -11,6 +11,7 @@
         "awcodes/overlook": "*",
         "aymanalhattami/filament-slim-scrollbar": "*",
         "bezhansalleh/filament-shield": "*",
+        "darkaonline/l5-swagger": "^9.0",
         "diogogpinto/filament-auth-ui-enhancer": "*",
         "filament/filament": "^3.3",
         "hasnayeen/themes": "*",
@@ -18,7 +19,9 @@
         "joshembling/image-optimizer": "^1.6",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "midtrans/midtrans-php": "^2.6",
         "njxqlus/filament-progressbar": "*",
+        "twilio/sdk": "^8.6",
         "z3d0x/filament-logger": "^0.8.0"
     },
     "require-dev": {

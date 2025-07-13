@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,13 +14,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        $user = \App\Models\User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
+        // Seeder penting yang harus jalan dulu
+        $this->call([
+            BranchOfficesTableSeeder::class,
+            DepartmentsTableSeeder::class,
         ]);
 
-        $user->assignRole('super_admin');
+        // Seeder tambahan (data pelengkap)
+        $this->call([
+            RoleSeeder::class,
+            UsersTableSeeder::class,
+            CoursesTableSeeder::class,
+            CourseEnrollmentsTableSeeder::class,
+            SyllabiTableSeeder::class,
+            SesiTableSeeder::class,
+            ModulesTableSeeder::class,
+            QuizzesTableSeeder::class,
+            SubmissionsTableSeeder::class,
+            GradesTableSeeder::class,
+            AttendancesTableSeeder::class,
+            LeavesTableSeeder::class,
+            SallariesTableSeeder::class,
+            PayrollSettingsTableSeeder::class,
+            CertificatesTableSeeder::class,
+            SystemNotificationsTableSeeder::class,
+            CompanyProfileSettingsTableSeeder::class,
+            BlogPostsTableSeeder::class,
+            PaymentTransactionsTableSeeder::class,
+        ]);
     }
 }

@@ -9,12 +9,14 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory,HasRoles, Notifiable;
+    use HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -26,6 +28,16 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'name',
         'email',
         'password',
+        'email_verified_at',
+        'phone_number',
+        'address',
+        'nik',
+        'job_title',
+        'department_id',
+        'employment_status',
+        'onboarding_date',
+        'expertise_area',
+        'teaching_status',
     ];
 
     /**
@@ -39,17 +51,38 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
+            'onboarding_date' => 'date',
             'password' => 'hashed',
+            'employment_status' => 'string',
+            'teaching_status' => 'string',
         ];
     }
+
+    /**
+     * Relasi ke tabel departments
+     */
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Contoh relasi lain ke enrollments, submissions, dll bisa ditambahkan jika diperlukan
+     */
 
     public function getFilamentAvatarUrl(): ?string
     {
@@ -62,8 +95,49 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         }
     }
 
+    public function isAdminPanelUser(): bool
+    {
+        return $this->hasAnyRole([
+            'super_admin',
+            'admin_company',
+            'admin_hrm',
+            'admin_lms',
+            'admin_akademik',
+            'admin_hr',
+        ], 'admin');
+    }
+
+    public function isInstructor(): bool
+    {
+        return $this->hasRole('teacher', 'instructor');
+    }
+
+    public function isStudent(): bool
+    {
+        return $this->hasRole('student', 'student');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return match ($panel->getId()) {
+            'admin'      => $this->hasAnyRole([
+                'super_admin',
+                'admin_company',
+                'admin_hrm',
+                'admin_lms',
+                'admin_akademik',
+                'admin_hr',
+            ], 'admin'),
+            'instructor' => $this->hasRole('teacher', 'instructor'),
+            'sso'        => $this->hasRole('student', 'student'),
+            default      => false,
+        };
+    }
+
+    public static function getUsersByRoleAndGuard(string $role, string $guard): \Illuminate\Support\Collection
+    {
+        return static::whereHas('roles', function ($q) use ($role, $guard) {
+            $q->where('name', $role)->where('guard_name', $guard);
+        })->pluck('name', 'id');
     }
 }

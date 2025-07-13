@@ -11,6 +11,7 @@ use Filament\Navigation\MenuItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
+use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
@@ -21,6 +22,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -49,16 +51,46 @@ class AdminPanelProvider extends PanelProvider
             ->discoverClusters(in: app_path('Filament/Admin/Clusters'), for: 'App\\Filament\\Admin\\Clusters')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->widgets([
+                Widgets\AccountWidget::class,
                 \Awcodes\Overlook\Widgets\OverlookWidget::class,
             ])
             ->navigationGroups([
                 NavigationGroup::make()
-                    ->label('Administration'),
+                    ->label('Dashboard')
+                    ->icon('heroicon-o-home'),
+
+                NavigationGroup::make()
+                    ->label('Academics')
+                    ->icon('heroicon-o-academic-cap'),
+
+                NavigationGroup::make()
+                    ->label('Content & Modules')
+                    ->icon('heroicon-o-book-open'),
+
+                NavigationGroup::make()
+                    ->label('Assessments')
+                    ->icon('heroicon-o-pencil-square'),
+
+                NavigationGroup::make()
+                    ->label('Student Affairs')
+                    ->icon('heroicon-o-user'),
+
+                NavigationGroup::make()
+                    ->label('Finance & Payroll')
+                    ->icon('heroicon-o-currency-dollar'),
+
+                NavigationGroup::make()
+                    ->label('Organization Settings')
+                    ->icon('heroicon-o-building-office'),
+
+                NavigationGroup::make()
+                    ->label('Administration')
+                    ->icon('heroicon-o-shield-check'),
             ])
             ->userMenuItems([
                 'profile' => MenuItem::make()
-                    ->label(fn () => auth()->user()->name)
-                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->label(fn() => \Illuminate\Support\Facades\Auth::user()?->name)
+                    ->url(fn(): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
                 // 'profile' => \Filament\Navigation\MenuItem::make()
                 //     ->label(fn () => auth()->user()->name)
@@ -86,7 +118,7 @@ class AdminPanelProvider extends PanelProvider
                     ->formPanelPosition('right')
                     ->formPanelWidth('40%')
                     ->emptyPanelBackgroundImageOpacity('70%')
-                    ->emptyPanelBackgroundImageUrl('https://picsum.photos/seed/picsum/1260/750.webp/?blur=1'),
+                    ->emptyPanelBackgroundImageUrl('https://cdn.pixabay.com/video/2017/12/05/13232-246463976_tiny.jpg'),
                 \Awcodes\LightSwitch\LightSwitchPlugin::make()
                     ->position(\Awcodes\LightSwitch\Enums\Alignment::BottomCenter)
                     ->enabledOn([
@@ -122,8 +154,10 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
                 \Hasnayeen\Themes\Http\Middleware\SetTheme::class,
             ])
+            ->authGuard('admin')
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\EnsureUserIsAdmin::class,
             ]);
     }
 }
